@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name = "type">
+        <item>종목을 선택하세요</item>
+        <item>축구</item>
+        <item>족구</item>
+        <item>배구</item>
+        <item>야구</item>
+        <item>기타</item>
+    </string-array>
+</resources>

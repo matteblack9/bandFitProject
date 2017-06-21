@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "512300270903",
+    "firebase_url": "https://bandfit-600e9.firebaseio.com",
+    "project_id": "bandfit-600e9",
+    "storage_bucket": "bandfit-600e9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:512300270903:android:bfa8b259ad2130b5",
+        "android_client_info": {
+          "package_name": "com.bandfitproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "512300270903-jh1b0a0trog0fulcop0rfose1sbd4308.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGArZGKva3QqZwRJmLuQdjlr97saUJYtY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
