@@ -226,6 +226,7 @@ public class BandFitDataBase {
         for(User temp : bData.en_people) {
             if(temp.id.equals(user.id)) {
                 bData.en_people.remove(user);
+                System.out.println("asdasdasd");
                 break;
             }
         }

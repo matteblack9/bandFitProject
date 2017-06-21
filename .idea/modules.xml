@@ -3,8 +3,12 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bandFitProject.iml" filepath="$PROJECT_DIR$/bandFitProject.iml" />
       <module fileurl="file://$PROJECT_DIR$/bandFitProject.iml" filepath="$PROJECT_DIR$/bandFitProject.iml" />
       <module fileurl="file://$PROJECT_DIR$/google_maps/google_maps.iml" filepath="$PROJECT_DIR$/google_maps/google_maps.iml" />
+      <module fileurl="file://$PROJECT_DIR$/google_maps/google_maps.iml" filepath="$PROJECT_DIR$/google_maps/google_maps.iml" />
+      <module fileurl="file://$PROJECT_DIR$/navigation_bar/navigation_bar.iml" filepath="$PROJECT_DIR$/navigation_bar/navigation_bar.iml" />
       <module fileurl="file://$PROJECT_DIR$/navigation_bar/navigation_bar.iml" filepath="$PROJECT_DIR$/navigation_bar/navigation_bar.iml" />
     </modules>
   </component>
