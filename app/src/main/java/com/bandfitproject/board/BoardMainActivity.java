@@ -232,10 +232,13 @@ public class BoardMainActivity extends AppCompatActivity
 
     @Override
     protected void onDestroy() {
-        //Log.i(this.getClass().getName(), "여기는 게시판 메인 onDestroy 입니다.");
+        Log.i(this.getClass().getName(), "여기는 게시판 메인 onDestroy 입니다.");
+        DatabaseReference logState = FirebaseDatabase.getInstance().getReference("information").child(user.id)
+                .child("isLogin");
+        logState.setValue(false);
         super.onDestroy();
         BusProvider.getInstance().unregister(this);
-        //BandFitDataBase.getInstance().exit();
+        BandFitDataBase.getInstance().exit();
     }
 
     @Override

@@ -146,10 +146,18 @@ public class BandFitDataBase {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 User tempUser = dataSnapshot.getValue(User.class);
-                if(bData.engaging_people.contains(tempUser.id)) {
+                for(User tempU : bData.en_people) {
+                    if(tempU.id.equals(tempUser.id)) {
+                        tempUser.engaging_board.remove(bData.chat_room_name);
+                        mInforRef.child(tempUser.id).child("engaging_board").setValue(tempUser.engaging_board);
+                        break;
+                    }
+                }
+                /*if(bData.en_people.contains(tempUser)) {
+                    System.out.println("eeeeeeeeeeeeeeeeeeeeeeeee");
                     tempUser.engaging_board.remove(bData.chat_room_name);
                     mInforRef.child(tempUser.id).child("engaging_board").setValue(tempUser.engaging_board);
-                }
+                }*/
             }
 
             @Override
@@ -231,7 +239,7 @@ public class BandFitDataBase {
             }
         }
         mBoardRef.child(bData.chat_room_name).setValue(bData);
-        //removeInforEvent(bData);
+        removeInforEvent(bData);
         chatRoom_Items.remove(bData);
     }
 
