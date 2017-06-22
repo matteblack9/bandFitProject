@@ -1,6 +1,8 @@
 package com.bandfitproject.chat;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -43,6 +45,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private ChatAdapter mAdapter;
     private String userName;
     private  String chatRoomName;
+    private long def_time = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         String boardName = intent.getStringExtra("boardName");
         //bData = (BoardData)intent.getSerializableExtra("boardData");
         //System.out.println("testest: " + bData.topic);
+
 
         setContentView(R.layout.chat_activity);
         setTitle(boardName);
@@ -111,7 +115,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         //CREATE DB와 비슷한 역할
         mDatabaseReference = mFirebaseDatabase.getReference("boardChat").child(chatRoomName);
-
         //child에 대한 Event를 다룬다.
         mChildEventListener = new ChildEventListener() {
             @Override
@@ -156,7 +159,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
         mDatabaseReference.removeEventListener(mChildEventListener);
-        Log.i("채팅 액티비티 onDestory", "리스너 삭제");
+        def_time = 0;
     }
 
     @Override
@@ -169,10 +172,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             chatData.message = message;
             chatData.time = System.currentTimeMillis();
             mDatabaseReference.push().setValue(chatData);
+
+            mListView.smoothScrollToPosition(mAdapter.getCount());
         }
         for(User engaging_user : share_Data.en_people) {
             if(!engaging_user.id.equals(user.id)) {
-                System.out.println("[][][]name : " + engaging_user.id);
                 sendPostToFCM(engaging_user, message);
             }
         }

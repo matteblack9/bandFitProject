@@ -69,7 +69,7 @@ public class BoardMainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.board_main);
-
+        BusProvider.getInstance().register(this);
         DatabaseReference logState = FirebaseDatabase.getInstance().getReference("information").child(user.id)
                 .child("isLogin");
 
@@ -101,8 +101,6 @@ public class BoardMainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         // 프레그먼트 최신화를 요청하는 이벤트를 받는다. //
         navigationView.setNavigationItemSelectedListener(this);
-        BusProvider.getInstance().register(this);
-
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -238,21 +236,20 @@ public class BoardMainActivity extends AppCompatActivity
 
     @Subscribe
     public void changeDetect(BusEvent mBusEvnet) {
-        Log.i(getClass().getName(), "구독을 시작합니다");
         isChanged = true;
         mSectionsPagerAdapter.notifyDataSetChanged();
+        System.out.println("구독을 시작합니다.");
     }
 
 
     @Override
     protected void onDestroy() {
-        Log.i(this.getClass().getName(), "여기는 게시판 메인 onDestroy 입니다.");
         logState.setValue(false);
-        super.onDestroy();
         if(!logout)
             BandFitDataBase.getInstance().exit();
         BusProvider.getInstance().unregister(this);
-        unregisterReceiver(mReceiver);
+        super.onDestroy();
+
     }
 
     @Override
@@ -368,8 +365,8 @@ public class BoardMainActivity extends AppCompatActivity
         }
         @Override
         public int getItemPosition(Object object) {
-            if(isChanged &&
-                    (object.getClass() == BoardActivity.class || object.getClass() == ChatRoomActivity.class)) {
+            Log.i("asdasdsad", "sadjkgjkdflgjkdflg");
+            if (object.getClass() == BoardActivity.class || object.getClass() == ChatRoomActivity.class) {
                 return  POSITION_NONE;
             } else
                 return POSITION_UNCHANGED;

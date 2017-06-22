@@ -13,9 +13,11 @@ import android.widget.Toast;
 import com.bandfitproject.BandFitDataBase;
 import com.bandfitproject.R;
 import com.bandfitproject.board.BoardMainActivity;
+import com.bandfitproject.data.BoardData;
 import com.bandfitproject.data.User;
 
 import com.bandfitproject.register.RegisterActivity;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -75,10 +77,14 @@ public class LoginActivity extends AppCompatActivity {
             } else {
             }
             BandFitDataBase.getInstance().initChatRoomData();
+
             String token = FirebaseInstanceId.getInstance().getToken();
             DatabaseReference mTokenRef = FirebaseDatabase.getInstance().getReference("information").child(user.id);
             mTokenRef.child("fcmToken").setValue(token);
-            System.out.println("토큰토큰토큰 " + token);
+            DatabaseReference mTokenBoardRef;
+
+
+
             if(cb_autuLogin.isChecked()) {
                 // 자동 로그인을 위한 객체 저장 //
                 mPref = getSharedPreferences("auto_login", MODE_PRIVATE);

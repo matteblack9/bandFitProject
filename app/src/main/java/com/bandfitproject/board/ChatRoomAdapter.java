@@ -105,9 +105,8 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 ChatData cData = dataSnapshot.getValue(ChatData.class);
-                System.out.println("asdasdasdddddddddddddddddddddddddddddddddddd");
                 msg = cData.message;
-                senderName = cData.userName;
+                senderName = cData.userName + ": ";
                 holder.tx_msg.setText(msg);
                 holder.tx_id.setText(senderName);
             }
@@ -168,6 +167,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     BandFitDataBase.getInstance().outBoard(item);
+
                                     // 방을 나갔을 때, 나타나는 메세지 //
                                     ChatData mChatData = new ChatData();
                                     mChatData.userName = "ADMIN";
@@ -176,6 +176,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
                                     DatabaseReference mRef =
                                             FirebaseDatabase.getInstance().getReference("boardChat").child(item.chat_room_name);
                                     mRef.push().setValue(mChatData);
+
                                     BusProvider.getInstance().post(new BusEvent("BoardActivity"));
                                     for(User engaging_user : item.en_people) {
                                         if(!engaging_user.id.equals(user.id))
