@@ -105,8 +105,11 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 ChatData cData = dataSnapshot.getValue(ChatData.class);
+                System.out.println("asdasdasdddddddddddddddddddddddddddddddddddd");
                 msg = cData.message;
                 senderName = cData.userName;
+                holder.tx_msg.setText(msg);
+                holder.tx_id.setText(senderName);
             }
 
             @Override
@@ -160,7 +163,6 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
                     alert.show();
                 }
                 else{
-                    //ㅁㄴㅇㅁㄴㅇ
                     AlertDialog.Builder ab = new AlertDialog.Builder(context);
                     ab.setMessage("방을 나가시겠습니까?").setCancelable(false).setPositiveButton("예",
                             new DialogInterface.OnClickListener() {
