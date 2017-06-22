@@ -42,6 +42,10 @@ public class RegisterActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
+    public void check_overlap() {
+
+    }
+
     @OnClick(R.id.register_btn_sign_in)
     void onSignInClick() {
         id = register_et_id.getText().toString();

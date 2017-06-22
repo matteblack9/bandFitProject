@@ -155,11 +155,6 @@ public class BandFitDataBase {
                         break;
                     }
                 }
-                /*if(bData.en_people.contains(tempUser)) {
-                    System.out.println("eeeeeeeeeeeeeeeeeeeeeeeee");
-                    tempUser.engaging_board.remove(bData.chat_room_name);
-                    mInforRef.child(tempUser.id).child("engaging_board").setValue(tempUser.engaging_board);
-                }*/
             }
 
             @Override
@@ -234,11 +229,12 @@ public class BandFitDataBase {
         for(User temp : bData.en_people) {
             if(temp.id.equals(user.id)) {
                 bData.en_people.remove(user);
-                System.out.println("asdasdasd");
                 break;
             }
         }
         mBoardRef.child(bData.chat_room_name).setValue(bData);
+        user.engaging_board.remove(bData.chat_room_name);
+        mInforRef.child(user.id).child("engaging_board").setValue(user.engaging_board);
         removeInforEvent(bData);
         chatRoom_Items.remove(bData);
     }

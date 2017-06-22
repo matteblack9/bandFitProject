@@ -3,6 +3,7 @@ package com.bandfitproject.board;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -70,6 +71,7 @@ public class BoardMakeActivity extends AppCompatActivity {
 
         new DatePickerDialog(BoardMakeActivity.this, dateSetListener, year, month, day).show();
     }
+
     /**
      * 방 만들기 버튼을 누를 때 발생하는 이벤트
      * DB에 게시판 내용을 저장하고, 채팅서버를 만든다.
@@ -85,8 +87,7 @@ public class BoardMakeActivity extends AppCompatActivity {
         date = make_board_et_date.getText().toString();
 
 
-        if(!type.equals("종목을 선택하세요") &&
-                topic.length() != 0 && description.length() !=0 && place.length() != 0 && people.length() != 0 && date.length() != 0) {
+        if(topic.length() != 0 && description.length() !=0 && place.length() != 0 && people.length() != 0 && date.length() != 0) {
             // 다이얼 로그 생성, 완료 시 방이 만들어진다. //
             Log.i(getClass().getName(), "방 만들기 버튼 누릅니다.");
 
@@ -146,10 +147,7 @@ public class BoardMakeActivity extends AppCompatActivity {
             });
             alert.setMessage("모든 정보를 입력해주십시오");
             alert.show();
-
-
         }
-
     }
 
     /**

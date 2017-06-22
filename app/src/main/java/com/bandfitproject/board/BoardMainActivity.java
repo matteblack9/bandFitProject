@@ -30,6 +30,7 @@ import com.bandfitproject.BusProvider;
 
 import com.bandfitproject.R;
 import com.bandfitproject.login.LoginActivity;
+import com.bandfitproject.register.RegisterActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.otto.Subscribe;
@@ -144,27 +145,6 @@ public class BoardMainActivity extends AppCompatActivity
         });
     }
 
-    /*private void showFABMenu(){
-        isFABOpen=true;
-        fab1.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
-        fab2.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
-        fab1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isFABOpen) {
-                    Intent intent = new Intent(BoardMainActivity.this, BoardMakeActivity.class);
-                    startActivityForResult(intent, MAKR_BOARD_SUCCESS);
-                }
-            }
-        });
-    }
-
-    private void closeFABMenu(){
-        isFABOpen=false;
-        fab1.animate().translationY(0);
-        fab2.animate().translationY(0);
-    }*/
-
     @Override
     public void onBackPressed() {
         /*if(!isFABOpen){
@@ -203,7 +183,6 @@ public class BoardMainActivity extends AppCompatActivity
                             SharedPreferences.Editor editor = logRef.edit();
                             editor.clear();
                             editor.commit();
-
                             startActivity(intent);
                             finish();
                         }

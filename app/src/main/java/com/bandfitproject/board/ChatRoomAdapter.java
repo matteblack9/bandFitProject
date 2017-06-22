@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.bandfitproject.BandFitDataBase;
+import com.bandfitproject.BusEvent;
+import com.bandfitproject.BusProvider;
 import com.bandfitproject.R;
 import com.bandfitproject.chat.ChatActivity;
 import com.bandfitproject.chat.ChatData;
@@ -77,11 +79,11 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
                 }
                 else{
                     AlertDialog.Builder ab = new AlertDialog.Builder(context);
-                    ab.setMessage("방을 지우시겠습니까?").setCancelable(false).setPositiveButton("예",
+                    ab.setMessage("방을 나가시겠습니까?").setCancelable(false).setPositiveButton("예",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     BandFitDataBase.getInstance().outBoard(item);
-                                    // 처음 입장했을때, 나타나는 메세지 //
+                                    // 방을 나갔을 때, 나타나는 메세지 //
                                     ChatData mChatData = new ChatData();
                                     mChatData.userName = "ADMIN";
                                     mChatData.time = System.currentTimeMillis();
@@ -89,7 +91,8 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
                                     DatabaseReference mRef =
                                             FirebaseDatabase.getInstance().getReference("boardChat").child(item.chat_room_name);
                                     mRef.push().setValue(mChatData);
-                                    notifyDataSetChanged();
+                                    BusProvider.getInstance().post(new BusEvent("BoardActivity"));
+                                    // notifyDataSetChanged();
                                 }
                             }).setNegativeButton("아니오",
                             new DialogInterface.OnClickListener() {
