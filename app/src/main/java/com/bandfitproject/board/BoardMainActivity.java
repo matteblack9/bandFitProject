@@ -236,6 +236,7 @@ public class BoardMainActivity extends AppCompatActivity
 
     @Subscribe
     public void changeDetect(BusEvent mBusEvnet) {
+        System.out.println("eeeeeeeeeeee");
         isChanged = true;
         mSectionsPagerAdapter.notifyDataSetChanged();
         System.out.println("구독을 시작합니다.");

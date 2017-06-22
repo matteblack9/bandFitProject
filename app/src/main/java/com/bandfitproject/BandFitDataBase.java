@@ -73,10 +73,14 @@ public class BandFitDataBase {
                 BoardData bData = dataSnapshot.getValue(BoardData.class);
                 bData.firebaseKey = dataSnapshot.getKey();
                 board_Items.add(bData);
+                BusProvider.getInstance().post(new BusEvent("ChatRoomActivity"));
+
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                BusProvider.getInstance().post(new BusEvent("ChatRoomActivity"));
+
             }
 
             @Override
