@@ -1,19 +1,14 @@
 package com.bandfitproject;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.bandfitproject.data.BoardData;
 import com.bandfitproject.data.User;
-import com.bandfitproject.login.LoginActivity;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +45,11 @@ public class BandFitDataBase {
     public static List<BoardData> getBoard_items() {
         return board_Items;
     }
+
+    public boolean isfirstevent = true;
+    public boolean ischatevent = true;
+    public boolean isinforevent = true;
+
 
     // 싱글톤 객체 생성 //
     private static BandFitDataBase dataBase_Instance ;
@@ -100,6 +100,7 @@ public class BandFitDataBase {
             }
         };
         board_Items.clear();
+        //mBoardRef.removeEventListener(mChatRoomEventListener);
         mBoardRef.addChildEventListener(mBoardEventListener);
     }
 
@@ -107,6 +108,7 @@ public class BandFitDataBase {
      * 채팅룸 정보를 긁어옴
      */
     public void initChatRoomData() {
+        System.out.println("ㅁ낭ㅇ허ㅏㅣㄹ엉라ㅣ노ㅓㅏㅣㄴㅇ로ㅓㅏㅣㅗㅓ");
         mChatRoomEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -137,6 +139,7 @@ public class BandFitDataBase {
             }
         };
         chatRoom_Items.clear();
+        //mBoardRef.removeEventListener(mChatRoomEventListener);
         mBoardRef.addChildEventListener(mChatRoomEventListener);
     }
 
@@ -199,8 +202,8 @@ public class BandFitDataBase {
 
     public void exit() {
         //mBoardRef.removeEventListener(mChatEventListener);
-        //mBoardRef.removeEventListener(mBoardEventListener);
-        //mBoardRef.removeEventListener(mChatRoomEventListener);
+        mBoardRef.removeEventListener(mBoardEventListener);
+        mBoardRef.removeEventListener(mChatRoomEventListener);
         board_Items.clear();
         chatRoom_Items.clear();
         //dataBase_Instance = null;

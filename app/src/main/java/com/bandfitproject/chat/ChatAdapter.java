@@ -33,16 +33,13 @@ public class ChatAdapter extends ArrayAdapter<ChatData> {
         if( convertView == null) {
             if(viewType == TYPE_ME) {
                 convertView = setMySelfView(inflator);
-                Log.i("채팅 어뎁터: ", "내 메세지입니다.");
             }
             // 추가됨 없애버리자 안되면 //
             else if(viewType == TYPE_ADMIN) {
                 convertView = setADMINView(inflator);
-                Log.i("채팅 어뎁터: ", "여기는 어드민 메세지입니다.");
             }
             else {
                 convertView = setYourView(inflator);
-                Log.i("채팅 어뎁터: ", "여기는 다른사람 메세지입니다.");
             }
         }
 
@@ -53,7 +50,6 @@ public class ChatAdapter extends ArrayAdapter<ChatData> {
             }
             ((ViewHolderAnother)convertView.getTag()).setData(position);*/
         }
-        // 추가했는데 안되면 없애버리자 //
         else if (convertView.getTag() instanceof  ViewHolderADMIN) {
             ((ViewHolderADMIN)convertView.getTag()).setData(position);
         }

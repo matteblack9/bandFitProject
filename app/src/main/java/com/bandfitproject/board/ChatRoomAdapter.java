@@ -19,6 +19,7 @@ import com.bandfitproject.R;
 import com.bandfitproject.chat.ChatActivity;
 import com.bandfitproject.chat.ChatData;
 import com.bandfitproject.data.BoardData;
+import com.bandfitproject.data.BoardData2;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import java.util.List;
@@ -32,6 +33,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
     Context context;
     List<BoardData> items;
     int item_layout;
+    public static BoardData share_Data;
 
     public ChatRoomAdapter(Context context, List<BoardData> items, int item_layout) {
         this.context = context;
@@ -113,6 +115,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
                 String chatRoomName = item.chat_room_name;
                 intent.putExtra("chatRoomName", chatRoomName);
                 intent.putExtra("boardName", item.topic);
+                share_Data = item;
                 context.startActivity(intent);
             }
         });
@@ -134,9 +137,5 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
             super(v);
             ButterKnife.bind(this, v);
         }
-    }
-    public void addItem(BoardData add_item) {
-        items.add(add_item);
-        notifyItemInserted(items.size() - 1);
     }
 }

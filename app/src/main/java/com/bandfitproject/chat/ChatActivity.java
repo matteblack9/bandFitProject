@@ -11,12 +11,23 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.bandfitproject.R;
+import com.bandfitproject.data.BoardData;
+import com.bandfitproject.data.User;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.json.JSONObject;
+
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import static com.bandfitproject.board.BoardAdapter.FCM_MESSAGE_URL;
+import static com.bandfitproject.board.BoardAdapter.SERVER_KEY;
+import static com.bandfitproject.board.ChatRoomAdapter.share_Data;
 import static com.bandfitproject.login.LoginActivity.user;
 
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener{
@@ -40,6 +51,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = getIntent();
         chatRoomName = intent.getStringExtra("chatRoomName");
         String boardName = intent.getStringExtra("boardName");
+        //bData = (BoardData)intent.getSerializableExtra("boardData");
+        //System.out.println("testest: " + bData.topic);
 
         setContentView(R.layout.chat_activity);
         setTitle(boardName);
@@ -47,6 +60,41 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         userName = user.getId();
         initViews();
         initFirebaseDatabase();
+    }
+
+    private void sendPostToFCM(User engaging_user, String msg) {
+        final String message = user.id + " : " + msg;
+        final String fcmToken = engaging_user.fcmToken;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    // FMC 메시지 생성 start
+                    JSONObject root = new JSONObject();
+                    JSONObject notification = new JSONObject();
+                    notification.put("body", message);
+                    notification.put("title", "test");
+                    root.put("notification", notification);
+                    root.put("to", fcmToken);
+                    // FMC 메시지 생성 end
+
+                    URL Url = new URL(FCM_MESSAGE_URL);
+                    HttpURLConnection conn = (HttpURLConnection) Url.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+                    conn.addRequestProperty("Authorization", "key=" + SERVER_KEY);
+                    conn.setRequestProperty("Accept", "application/json");
+                    conn.setRequestProperty("Content-type", "application/json");
+                    OutputStream os = conn.getOutputStream();
+                    os.write(root.toString().getBytes("utf-8"));
+                    os.flush();
+                    conn.getResponseCode();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     private void initViews() {
@@ -121,6 +169,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             chatData.message = message;
             chatData.time = System.currentTimeMillis();
             mDatabaseReference.push().setValue(chatData);
+        }
+        for(User engaging_user : share_Data.en_people) {
+            if(!engaging_user.id.equals(user.id))
+                sendPostToFCM(engaging_user, message);
         }
     }
 }

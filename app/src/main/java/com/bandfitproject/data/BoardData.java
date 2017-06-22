@@ -1,8 +1,9 @@
 package com.bandfitproject.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class BoardData {
+public class BoardData implements Serializable{
     public String firebaseKey = "";
     public String topic;
     public String type;
@@ -14,7 +15,6 @@ public class BoardData {
     public String admin;
 
     public ArrayList<String> chat_room;
-    public ArrayList<String> engaging_people;
     public ArrayList<User> en_people;
 
 
