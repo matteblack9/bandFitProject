@@ -47,6 +47,8 @@ public class BoardMakeActivity extends AppCompatActivity {
     // board의 변수들 //
     private String type, topic, place, date, description, people, chatRoomName = "";
 
+    public static final int CLICK_SUCCESSFUL = 1;
+
     // 데이터베이스 //
     DatabaseReference mRef  = FirebaseDatabase.getInstance().getReference("board");
 
@@ -57,10 +59,16 @@ public class BoardMakeActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == CLICK_SUCCESSFUL || resultCode == CLICK_SUCCESSFUL){
+            make_board_et_place.setText(data.getStringExtra("Address"));
+        }
+    }
+
     public void show_Place(View view) {
         Intent intent = new Intent(getApplicationContext(), SearchMapActivity.class);
-        System.out.println("Helloworld111");
-        startActivity(intent);
+        startActivityForResult(intent, CLICK_SUCCESSFUL);
     }
 
     @OnItemSelected(R.id.make_board_spinner_type)

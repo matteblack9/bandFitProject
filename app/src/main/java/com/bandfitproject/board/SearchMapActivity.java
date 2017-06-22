@@ -1,6 +1,7 @@
 package com.bandfitproject.board;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -35,30 +36,29 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 
+import butterknife.BindView;
+
 public class SearchMapActivity extends FragmentActivity implements MapView.MapViewEventListener, MapView.POIItemEventListener {
 
     private static final String LOG_TAG = "SearchDemoActivity";
-
+    public static String address = "";
     private MapView mMapView;
     private EditText mEditTextQuery;
     private Button mButtonSearch;
 	private HashMap<Integer, Item> mTagItemMap = new HashMap<Integer, Item>();
 
+	@BindView(R.id.make_board_et_place)Button make_board_et_place;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        System.out.println("Helloworld0000");
         super.onCreate(savedInstanceState);
-        System.out.println("Helloworld");
         setContentView(R.layout.demo_search);
 
         mMapView = (MapView)findViewById(R.id.map_view);
-        System.out.println("Helloworld1");
         mMapView.setDaumMapApiKey(MapApiConst.DAUM_MAPS_ANDROID_APP_API_KEY);
-        System.out.println("Helloworld2");
         mMapView.setMapViewEventListener(this);
         mMapView.setPOIItemEventListener(this);
         mMapView.setCalloutBalloonAdapter(new CustomCalloutBalloonAdapter());
-        System.out.println("Helloworld3");
         mEditTextQuery = (EditText) findViewById(R.id.editTextQuery); // 검색창
         
         mButtonSearch = (Button) findViewById(R.id.buttonSearch); // 검색버튼
@@ -208,7 +208,9 @@ public class SearchMapActivity extends FragmentActivity implements MapView.MapVi
 			return null;
 		}
 	}
-	
+
+
+
 	private Object fetch(String address) throws MalformedURLException,IOException {
 		URL url = new URL(address);
 		Object content = url.getContent();
@@ -230,7 +232,14 @@ public class SearchMapActivity extends FragmentActivity implements MapView.MapVi
 		sb.append("latitude=").append(item.latitude).append("\n");
 		sb.append("distance=").append(item.distance).append("\n");
 		sb.append("direction=").append(item.direction).append("\n");
-		Toast.makeText(this, sb.toString(), Toast.LENGTH_SHORT).show();
+//		Toast.makeText(this, sb.toString(), Toast.LENGTH_SHORT).show();
+        address = item.newAddress + " " + item.title;
+        Intent intent = new Intent(this, BoardMakeActivity.class);
+        intent.putExtra("Address",address);
+        mMapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(item.longitude,item.latitude), 2, true);
+        setResult(RESULT_OK,intent);
+        finish();
+        System.out.println("FUCkyou");
 	}
 	
 	@Override
