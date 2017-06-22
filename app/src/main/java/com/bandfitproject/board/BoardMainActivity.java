@@ -1,5 +1,7 @@
 package com.bandfitproject.board;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -68,6 +70,15 @@ public class BoardMainActivity extends AppCompatActivity
      */
     private ViewPager mViewPager;
 
+    public class TestReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String name = intent.getAction();
+            if(name.equals("com.bandfit.SEND_BROAD_CAST")) {
+                System.out.println("asdasdasdasdasd");
+            }
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,17 +141,10 @@ public class BoardMainActivity extends AppCompatActivity
 
         // 방만들기 버튼 //
         FloatingActionButton board_main_fab = (FloatingActionButton) findViewById(R.id.board_main_fab);
-        /*fab1 = (FloatingActionButton) findViewById(R.id.test);
-        fab2 = (FloatingActionButton) findViewById(R.id.testBB);*/
 
         board_main_fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*if(!isFABOpen){
-                    showFABMenu();
-                }else{
-                    closeFABMenu();
-                }*/
                 Intent intent = new Intent(BoardMainActivity.this, BoardMakeActivity.class);
                 startActivityForResult(intent, MAKR_BOARD_SUCCESS);
             }
@@ -149,11 +153,6 @@ public class BoardMainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        /*if(!isFABOpen){
-            super.onBackPressed();
-        }else{
-            closeFABMenu();
-        }*/
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);

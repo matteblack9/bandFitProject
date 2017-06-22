@@ -20,12 +20,22 @@ import com.bandfitproject.chat.ChatActivity;
 import com.bandfitproject.chat.ChatData;
 import com.bandfitproject.data.BoardData;
 import com.bandfitproject.data.BoardData2;
+import com.bandfitproject.data.User;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import org.json.JSONObject;
+
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.bandfitproject.board.BoardAdapter.FCM_MESSAGE_URL;
+import static com.bandfitproject.board.BoardAdapter.SERVER_KEY;
 import static com.bandfitproject.login.LoginActivity.user;
 
 
@@ -39,6 +49,41 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
         this.context = context;
         this.items = items;
         this.item_layout = item_layout;
+    }
+
+    private void sendPostToFCM(User engaging_user, String msg) {
+        final String message = user.id + " : " + msg;
+        final String fcmToken = engaging_user.fcmToken;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    // FMC 메시지 생성 start
+                    JSONObject root = new JSONObject();
+                    JSONObject notification = new JSONObject();
+                    notification.put("body", message);
+                    notification.put("title", "test");
+                    root.put("notification", notification);
+                    root.put("to", fcmToken);
+                    // FMC 메시지 생성 end
+
+                    URL Url = new URL(FCM_MESSAGE_URL);
+                    HttpURLConnection conn = (HttpURLConnection) Url.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+                    conn.addRequestProperty("Authorization", "key=" + SERVER_KEY);
+                    conn.setRequestProperty("Accept", "application/json");
+                    conn.setRequestProperty("Content-type", "application/json");
+                    OutputStream os = conn.getOutputStream();
+                    os.write(root.toString().getBytes("utf-8"));
+                    os.flush();
+                    conn.getResponseCode();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     @Override
@@ -94,6 +139,10 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
                                             FirebaseDatabase.getInstance().getReference("boardChat").child(item.chat_room_name);
                                     mRef.push().setValue(mChatData);
                                     BusProvider.getInstance().post(new BusEvent("BoardActivity"));
+                                    for(User engaging_user : item.en_people) {
+                                        if(!engaging_user.id.equals(user.id))
+                                            sendPostToFCM(engaging_user, mChatData.message);
+                                    }
                                     // notifyDataSetChanged();
                                 }
                             }).setNegativeButton("아니오",

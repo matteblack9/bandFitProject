@@ -171,8 +171,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             mDatabaseReference.push().setValue(chatData);
         }
         for(User engaging_user : share_Data.en_people) {
-            if(!engaging_user.id.equals(user.id))
+            if(!engaging_user.id.equals(user.id)) {
+                System.out.println("[][][]name : " + engaging_user.id);
                 sendPostToFCM(engaging_user, message);
+            }
         }
     }
 }

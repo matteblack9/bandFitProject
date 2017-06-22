@@ -1,5 +1,6 @@
 package com.bandfitproject.service;
 
+import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
@@ -17,7 +18,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getNotification() != null) {
             String body = remoteMessage.getNotification().getBody();
             Log.d(TAG, "Notification Body: " + body);
-            System.out.println(TAG + "Notification Body: " + body);
+
+            Intent sendIntent = new Intent("com.bandfit.SEND_BROAD_CAST");
+            sendIntent.putExtra("isBoolean", true);
+            sendIntent.putExtra("sendInteger", 123);
+            sendIntent.putExtra("sendString", "Intent String");
+            sendBroadcast(sendIntent);
+
 
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext())
                     .setSmallIcon(R.mipmap.ic_launcher) // 알림 영역에 노출 될 아이콘.
