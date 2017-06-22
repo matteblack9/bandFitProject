@@ -73,6 +73,7 @@ public class LoginActivity extends AppCompatActivity {
             if((user.isLogin)) {
                 Toast.makeText(LoginActivity.this, "이미 접속중인 아이디입니다", Toast.LENGTH_SHORT).show();
             } else {
+                BandFitDataBase.getInstance().initChatRoomData();
                 if(cb_autuLogin.isChecked()) {
                     String token = FirebaseInstanceId.getInstance().getToken();
                     DatabaseReference mTokenRef = FirebaseDatabase.getInstance().getReference("information").child(user.id);
@@ -123,15 +124,14 @@ public class LoginActivity extends AppCompatActivity {
                     new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.getValue(User.class) == null) {
+                            if (dataSnapshot.getValue() == null) {
                                 System.out.println("asdasdasdasdasd");
                                 find = false;
                             } else {
                                 user = dataSnapshot.getValue(User.class);
-                                if(password.equals(user.password) && !(user.isLogin)) {
+                                if(password.equals(user.password) ) {
                                 //if(password.equals(user.password)) {
                                     find = true;
-                                    BandFitDataBase.getInstance().initChatRoomData();
                                 } else {
                                     find = false;
                                 }

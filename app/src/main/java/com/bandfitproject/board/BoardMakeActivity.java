@@ -120,10 +120,6 @@ public class BoardMakeActivity extends AppCompatActivity {
                             user.engaging_board.add(chatRoomName);
                             tRef.setValue(user.engaging_board);
 
-                            //리스트에 게시판, 채팅방 내용 추가
-                            //BandFitDataBase.getBoard_items().add(bData);
-                            //BandFitDataBase.getChatRoom_Items().add(bData);
-
                             setResult(RESULT_OK);
                             finish();
                         }
