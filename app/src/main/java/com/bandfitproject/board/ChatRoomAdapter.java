@@ -21,6 +21,9 @@ import com.bandfitproject.chat.ChatData;
 import com.bandfitproject.data.BoardData;
 import com.bandfitproject.data.BoardData2;
 import com.bandfitproject.data.User;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -40,6 +43,7 @@ import static com.bandfitproject.login.LoginActivity.user;
 
 
 public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHolder> {
+    String msg, senderName;
     Context context;
     List<BoardData> items;
     int item_layout;
@@ -96,10 +100,41 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
     @Override
     public void onBindViewHolder(final ChatRoomAdapter.ViewHolder holder, int position) {
         final BoardData item = items.get(position);
+        DatabaseReference mDref = FirebaseDatabase.getInstance().getReference("boardChat").child(item.chat_room_name);
+        mDref.limitToLast(1).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                ChatData cData = dataSnapshot.getValue(ChatData.class);
+                msg = cData.message;
+                senderName = cData.userName;
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         String type = "[" + item.type + "]" ;
         holder.text_type.setText(type);
         holder.text_topic.setText(item.topic);
         holder.text_date.setText(item.date);
+        holder.tx_id.setText(senderName);
+        holder.tx_msg.setText(msg);
         if(!user.id.equals(item.admin)) {
             holder.btn_removeBoard.setText("나가기");
         }
