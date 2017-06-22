@@ -6,6 +6,8 @@
       <module fileurl="file://$PROJECT_DIR$/bandFitProject.iml" filepath="$PROJECT_DIR$/bandFitProject.iml" />
       <module fileurl="file://$PROJECT_DIR$/google_maps/google_maps.iml" filepath="$PROJECT_DIR$/google_maps/google_maps.iml" />
       <module fileurl="file://$PROJECT_DIR$/libDaumMapAndroid/libDaumMapAndroid.iml" filepath="$PROJECT_DIR$/libDaumMapAndroid/libDaumMapAndroid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libDaumMapAndroid/libDaumMapAndroid.iml" filepath="$PROJECT_DIR$/libDaumMapAndroid/libDaumMapAndroid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libDaumMapEngineApi/libDaumMapEngineApi.iml" filepath="$PROJECT_DIR$/libDaumMapEngineApi/libDaumMapEngineApi.iml" />
       <module fileurl="file://$PROJECT_DIR$/libDaumMapEngineApi/libDaumMapEngineApi.iml" filepath="$PROJECT_DIR$/libDaumMapEngineApi/libDaumMapEngineApi.iml" />
       <module fileurl="file://$PROJECT_DIR$/navigation_bar/navigation_bar.iml" filepath="$PROJECT_DIR$/navigation_bar/navigation_bar.iml" />
     </modules>
