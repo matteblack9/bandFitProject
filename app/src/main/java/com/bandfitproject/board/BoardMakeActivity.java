@@ -57,6 +57,12 @@ public class BoardMakeActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
+    public void show_Place(View view) {
+        Intent intent = new Intent(getApplicationContext(), SearchMapActivity.class);
+        System.out.println("Helloworld111");
+        startActivity(intent);
+    }
+
     @OnItemSelected(R.id.make_board_spinner_type)
     void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         type = parent.getItemAtPosition(position).toString();
