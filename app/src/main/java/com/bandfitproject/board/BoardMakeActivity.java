@@ -19,10 +19,12 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.bandfitproject.R;
+import com.bandfitproject.chat.ChatActivity;
 import com.bandfitproject.data.BoardData;
 import com.bandfitproject.data.User;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import static com.bandfitproject.board.ChatRoomAdapter.share_Data;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -137,6 +139,12 @@ public class BoardMakeActivity extends AppCompatActivity {
                             tRef.setValue(user.engaging_board);
 
                             setResult(RESULT_OK);
+                            Intent intent = new Intent(BoardMakeActivity.this, ChatActivity.class);
+                            String chatRoomName = bData.chat_room_name;
+                            intent.putExtra("chatRoomName", chatRoomName);
+                            intent.putExtra("boardName", bData.topic);
+                            share_Data = bData;
+                            startActivity(intent);
                             finish();
                         }
                     }).setNegativeButton("아니오",

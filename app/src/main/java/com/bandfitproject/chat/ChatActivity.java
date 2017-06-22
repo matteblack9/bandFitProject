@@ -1,8 +1,6 @@
 package com.bandfitproject.chat;
 
 import android.content.Intent;
-import android.media.AudioManager;
-import android.media.SoundPool;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -45,8 +43,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private ChatAdapter mAdapter;
     private String userName;
     private  String chatRoomName;
-    SoundPool pool;
-    int ddok;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +60,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         userName = user.getId();
         initViews();
         initFirebaseDatabase();
-        pool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
-        ddok = pool.load(this, R.raw.sound_out, 1);
     }
 
     private void sendPostToFCM(User engaging_user, String msg) {
@@ -175,12 +169,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             chatData.message = message;
             chatData.time = System.currentTimeMillis();
             mDatabaseReference.push().setValue(chatData);
-            pool.play(ddok, 1, 1, 0, 0, 1);
         }
         for(User engaging_user : share_Data.en_people) {
             if(!engaging_user.id.equals(user.id))
                 sendPostToFCM(engaging_user, message);
-
         }
     }
 }

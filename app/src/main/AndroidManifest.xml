@@ -21,7 +21,11 @@
         <activity
             android:name=".board.BoardMainActivity"
             android:label="@string/title_activity_board_main"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="com.bandfit.SEND_BROAD_CAST"/>
+            </intent-filter>
+        </activity>
         <activity
             android:name=".board.BoardMakeActivity"
             android:label="@string/title_activity_board_make"

@@ -20,16 +20,30 @@ import com.bandfitproject.chat.ChatActivity;
 import com.bandfitproject.chat.ChatData;
 import com.bandfitproject.data.BoardData;
 import com.bandfitproject.data.BoardData2;
+import com.bandfitproject.data.User;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import org.json.JSONObject;
+
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.bandfitproject.board.BoardAdapter.FCM_MESSAGE_URL;
+import static com.bandfitproject.board.BoardAdapter.SERVER_KEY;
 import static com.bandfitproject.login.LoginActivity.user;
 
 
 public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHolder> {
+    String msg, senderName;
     Context context;
     List<BoardData> items;
     int item_layout;
@@ -39,6 +53,41 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
         this.context = context;
         this.items = items;
         this.item_layout = item_layout;
+    }
+
+    private void sendPostToFCM(User engaging_user, String msg) {
+        final String message = user.id + " : " + msg;
+        final String fcmToken = engaging_user.fcmToken;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    // FMC 메시지 생성 start
+                    JSONObject root = new JSONObject();
+                    JSONObject notification = new JSONObject();
+                    notification.put("body", message);
+                    notification.put("title", "test");
+                    root.put("notification", notification);
+                    root.put("to", fcmToken);
+                    // FMC 메시지 생성 end
+
+                    URL Url = new URL(FCM_MESSAGE_URL);
+                    HttpURLConnection conn = (HttpURLConnection) Url.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+                    conn.addRequestProperty("Authorization", "key=" + SERVER_KEY);
+                    conn.setRequestProperty("Accept", "application/json");
+                    conn.setRequestProperty("Content-type", "application/json");
+                    OutputStream os = conn.getOutputStream();
+                    os.write(root.toString().getBytes("utf-8"));
+                    os.flush();
+                    conn.getResponseCode();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     @Override
@@ -51,10 +100,44 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
     @Override
     public void onBindViewHolder(final ChatRoomAdapter.ViewHolder holder, int position) {
         final BoardData item = items.get(position);
+        DatabaseReference mDref = FirebaseDatabase.getInstance().getReference("boardChat").child(item.chat_room_name);
+        mDref.limitToLast(1).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                ChatData cData = dataSnapshot.getValue(ChatData.class);
+                System.out.println("asdasdasdddddddddddddddddddddddddddddddddddd");
+                msg = cData.message;
+                senderName = cData.userName;
+                holder.tx_msg.setText(msg);
+                holder.tx_id.setText(senderName);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         String type = "[" + item.type + "]" ;
         holder.text_type.setText(type);
         holder.text_topic.setText(item.topic);
         holder.text_date.setText(item.date);
+        holder.tx_id.setText(senderName);
+        holder.tx_msg.setText(msg);
         if(!user.id.equals(item.admin)) {
             holder.btn_removeBoard.setText("나가기");
         }
@@ -94,6 +177,10 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
                                             FirebaseDatabase.getInstance().getReference("boardChat").child(item.chat_room_name);
                                     mRef.push().setValue(mChatData);
                                     BusProvider.getInstance().post(new BusEvent("BoardActivity"));
+                                    for(User engaging_user : item.en_people) {
+                                        if(!engaging_user.id.equals(user.id))
+                                            sendPostToFCM(engaging_user, mChatData.message);
+                                    }
                                     // notifyDataSetChanged();
                                 }
                             }).setNegativeButton("아니오",
@@ -132,6 +219,11 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
         @BindView(R.id.chatroom_textview_topic) TextView text_topic;
         @BindView(R.id.chatroom_textview_date) TextView text_date;
         @BindView(R.id.btn_removeBoard) Button btn_removeBoard;
+
+        // ++ //
+        @BindView(R.id.tx_id) TextView tx_id;
+        @BindView(R.id.tx_msg) TextView tx_msg;
+        // ++ //
 
         public ViewHolder(View v) {
             super(v);
