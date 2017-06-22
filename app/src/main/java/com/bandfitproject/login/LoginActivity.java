@@ -70,30 +70,30 @@ public class LoginActivity extends AppCompatActivity {
 
     public void search_end(boolean gFind) {
         if(gFind) {
-            if(cb_autuLogin.isChecked() == true) {
-                String token = FirebaseInstanceId.getInstance().getToken();
-                DatabaseReference mTokenRef = FirebaseDatabase.getInstance().getReference("information").child(user.id);
-                mTokenRef.child("fcmToken").setValue(token);
-                // 자동 로그인을 위한 객체 저장 //
-                mPref = getSharedPreferences("auto_login", MODE_PRIVATE);
-                SharedPreferences.Editor prefsEditor = mPref.edit();
-                Gson gson = new Gson();
-                String json = gson.toJson(user);
-                prefsEditor.putString("User", json);
-                prefsEditor.commit();
-            }
-            // 로그인 상태 true로 전환 //
-            mDatabaseReference.child(user.id).child("isLogin").setValue(true);
-
-            Intent intent = new Intent(LoginActivity.this, BoardMainActivity.class);
-            startActivity(intent);
-            finish();
-        } else {
             if((user.isLogin)) {
                 Toast.makeText(LoginActivity.this, "이미 접속중인 아이디입니다", Toast.LENGTH_SHORT).show();
-            }else {
-                Toast.makeText(LoginActivity.this, "아이디/비밀번호를 확인하세요", Toast.LENGTH_SHORT).show();
+            } else {
+                if(cb_autuLogin.isChecked()) {
+                    String token = FirebaseInstanceId.getInstance().getToken();
+                    DatabaseReference mTokenRef = FirebaseDatabase.getInstance().getReference("information").child(user.id);
+                    mTokenRef.child("fcmToken").setValue(token);
+                    // 자동 로그인을 위한 객체 저장 //
+                    mPref = getSharedPreferences("auto_login", MODE_PRIVATE);
+                    SharedPreferences.Editor prefsEditor = mPref.edit();
+                    Gson gson = new Gson();
+                    String json = gson.toJson(user);
+                    prefsEditor.putString("User", json);
+                    prefsEditor.commit();
+                }
+                // 로그인 상태 true로 전환 //
+                mDatabaseReference.child(user.id).child("isLogin").setValue(true);
+
+                Intent intent = new Intent(LoginActivity.this, BoardMainActivity.class);
+                startActivity(intent);
+                finish();
             }
+        } else {
+            Toast.makeText(LoginActivity.this, "아이디/비밀번호를 확인하세요", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -124,6 +124,7 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.getValue(User.class) == null) {
+                                System.out.println("asdasdasdasdasd");
                                 find = false;
                             } else {
                                 user = dataSnapshot.getValue(User.class);
