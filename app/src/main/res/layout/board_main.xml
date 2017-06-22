@@ -40,22 +40,6 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
             <android.support.design.widget.FloatingActionButton
-                android:id="@+id/test"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|bottom"
-                android:layout_margin="@dimen/fab_margin"
-                app:srcCompat="@android:drawable/ic_menu_add" />
-
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/testBB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|bottom"
-                android:layout_margin="@dimen/fab_margin"
-                app:srcCompat="@android:drawable/ic_menu_add" />
-
-            <android.support.design.widget.FloatingActionButton
                 android:id="@+id/board_main_fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

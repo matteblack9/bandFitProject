@@ -36,8 +36,8 @@ import butterknife.ButterKnife;
 import static com.bandfitproject.login.LoginActivity.user;
 
 public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> {
-    private static final String FCM_MESSAGE_URL = "https://fcm.googleapis.com/fcm/send";
-    private static final String SERVER_KEY = "AAAAd0d5xTc:APA91bFiEx-ZTM5vbH9dmlKbQDP5bDgG8qmx" +
+    public static final String FCM_MESSAGE_URL = "https://fcm.googleapis.com/fcm/send";
+    public static final String SERVER_KEY = "AAAAd0d5xTc:APA91bFiEx-ZTM5vbH9dmlKbQDP5bDgG8qmx" +
             "m2mDBDxKT1ko8Q8QsTSORLIv3JMwpnKsxhc9dtjszQWVaeKEeSXwowUvndSfWukL--7jjEHhriQo2rStUwCrAvbRebL6WEisaC_g-gMM";
 
     Context context;
@@ -181,7 +181,8 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
                                     mRef.push().setValue(mChatData);
 
                                     for(User engaging_user : bData.en_people) {
-                                        sendPostToFCM(engaging_user);
+                                        if(!engaging_user.id.equals(user.id))
+                                            sendPostToFCM(engaging_user);
                                     }
                                     // 수정된 데이터를 데이터베이스에 넣는다.
                                     BandFitDataBase.getInstance().push_Engaging_Board(user.engaging_board, bData);

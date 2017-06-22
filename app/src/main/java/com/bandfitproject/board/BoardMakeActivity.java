@@ -39,13 +39,15 @@ public class BoardMakeActivity extends AppCompatActivity {
     @BindView(R.id.make_board_spinner_type) Spinner make_board_spinner_type;
     @BindView(R.id.make_board_et_topic)EditText make_board_et_topic;
     @BindView(R.id.make_board_et_desc)EditText make_board_et_desc;
-    @BindView(R.id.make_board_et_place)EditText make_board_et_place;
+    @BindView(R.id.make_board_et_place)Button make_board_et_place;
     @BindView(R.id.make_board_et_people)EditText make_board_et_people;
     @BindView(R.id.make_board_et_date)Button make_board_et_date;
     @BindView(R.id.make_board_btn)Button make_board_btn;
 
     // board의 변수들 //
     private String type, topic, place, date, description, people, chatRoomName = "";
+
+    public static final int CLICK_SUCCESSFUL = 1;
 
     // 데이터베이스 //
     DatabaseReference mRef  = FirebaseDatabase.getInstance().getReference("board");
@@ -55,6 +57,18 @@ public class BoardMakeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.board_make_activity);
         ButterKnife.bind(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == CLICK_SUCCESSFUL || resultCode == CLICK_SUCCESSFUL){
+            make_board_et_place.setText(data.getStringExtra("Address"));
+        }
+    }
+
+    public void show_Place(View view) {
+        Intent intent = new Intent(getApplicationContext(), SearchMapActivity.class);
+        startActivityForResult(intent, CLICK_SUCCESSFUL);
     }
 
     @OnItemSelected(R.id.make_board_spinner_type)
@@ -119,10 +133,6 @@ public class BoardMakeActivity extends AppCompatActivity {
                                     .child(user.id).child("engaging_board") ;
                             user.engaging_board.add(chatRoomName);
                             tRef.setValue(user.engaging_board);
-
-                            //리스트에 게시판, 채팅방 내용 추가
-                            //BandFitDataBase.getBoard_items().add(bData);
-                            //BandFitDataBase.getChatRoom_Items().add(bData);
 
                             setResult(RESULT_OK);
                             finish();

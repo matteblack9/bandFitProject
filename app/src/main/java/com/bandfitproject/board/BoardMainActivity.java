@@ -25,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bandfitproject.BandFitDataBase;
 import com.bandfitproject.BusEvent;
 import com.bandfitproject.BusProvider;
 
@@ -44,6 +45,7 @@ public class BoardMainActivity extends AppCompatActivity
     DatabaseReference logState = FirebaseDatabase.getInstance().getReference("information").child(user.id)
             .child("isLogin");
     public static boolean isChanged = false;
+    boolean logout = false;
     /*
     public boolean isFABOpen = false;
     FloatingActionButton fab1 ;
@@ -177,6 +179,10 @@ public class BoardMainActivity extends AppCompatActivity
                             logState.setValue(false);
 
                             Intent intent = new Intent(BoardMainActivity.this, LoginActivity.class);
+                            logout = true;
+                            BandFitDataBase.getInstance().exit();
+
+                            BandFitDataBase.getInstance().initBoardData();
 
                             // 자동로그인 상태 해제 //
                             SharedPreferences logRef = getSharedPreferences("auto_login", MODE_PRIVATE);
@@ -242,6 +248,8 @@ public class BoardMainActivity extends AppCompatActivity
         Log.i(this.getClass().getName(), "여기는 게시판 메인 onDestroy 입니다.");
         logState.setValue(false);
         super.onDestroy();
+        if(!logout)
+            BandFitDataBase.getInstance().exit();
         BusProvider.getInstance().unregister(this);
     }
 
