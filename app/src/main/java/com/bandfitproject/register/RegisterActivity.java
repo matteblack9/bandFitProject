@@ -11,7 +11,6 @@ import android.widget.Toast;
 import com.bandfitproject.BandFitDataBase;
 import com.bandfitproject.R;
 import com.bandfitproject.data.User;
-import com.bandfitproject.login.LoginActivity;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,6 +26,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.bandfitproject.login.LoginActivity.user;
+
 public class RegisterActivity extends AppCompatActivity {
     @BindView(R.id.register_et_id)EditText register_et_id;
     @BindView(R.id.register_et_password)EditText register_et_password;
@@ -41,6 +42,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     //infor//
     String id, password, password_check, name, email = "" ;
+    boolean result = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,30 +53,25 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public boolean check_overlap() {
-        /*Query query = FirebaseDatabase.getInstance().getReference("information").child(id);
+        Query query = FirebaseDatabase.getInstance().getReference("information").child(id);
         query.addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.getValue(User.class) == null) {
-                            return false;
-                        } else {
-                            user = dataSnapshot.getValue(User.class);
-                            if(password.equals(user.password) && !(user.isLogin)) {
-                                //if(password.equals(user.password)) {
-                                find = true;
-                                BandFitDataBase.getInstance().initChatRoomData();
-                            } else {
-                                find = false;
-                            }
-                        }
+                        // 중복되는 값이 없다.
+                        if(dataSnapshot.getValue() == null)
+                            result = true;
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                     }
                 }
-        );*/
+        );
+        if(result) {
+            result = false;
+            return true;
+        }
         return false;
     }
 
@@ -84,8 +82,8 @@ public class RegisterActivity extends AppCompatActivity {
         password_check = register_et_password_check.getText().toString();
         name = register_et_name.getText().toString();
         email = register_et_email.getText().toString();
-
-        if(check_overlap()) {
+        boolean notOverlap = check_overlap();
+        if(notOverlap) {
             Toast.makeText(RegisterActivity.this, "이미 존재하는 아이디입니다.", Toast.LENGTH_SHORT).show();
         } else {
             if(email == null || !email.contains("@")) {
@@ -99,31 +97,34 @@ public class RegisterActivity extends AppCompatActivity {
             } else if(password_check == null) {
                 Toast.makeText(RegisterActivity.this, "비밀번호 확인란을 채워주세요", Toast.LENGTH_SHORT).show();
             } else {
-                AlertDialog.Builder ab = new AlertDialog.Builder(RegisterActivity.this);
-                ab.setMessage("회원가입을 완료하시겠습니까?").setCancelable(false).setPositiveButton("예",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int dialog_id) {
-                                //User 정보 입력//
-                                ArrayList<String> engaging_board = new ArrayList<String>();
-                                engaging_board.add("");
-                                User user = new User(id, password, name, email, engaging_board);
-                                user.fcmToken = FirebaseInstanceId.getInstance().getToken();
-                                //데이터베이스에 입력//
-                                mDatabaseReference = FirebaseDatabase.getInstance().getReference("information");
-                                mDatabaseReference.child(id).setValue(user);
-                                finish();
-                            }
-                        }).setNegativeButton("아니오",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int dialog_id) {
-                                dialog.cancel();
-                            }
-                        });
-                AlertDialog alert = ab.create();
-                alert.setTitle("회원가입");
-                alert.show();
+                if(password.length() < 8) {
+                    Toast.makeText(RegisterActivity.this, "비밀번호를 8자리 이상으로 해주세요.", Toast.LENGTH_SHORT).show();
+                } else {
+                    AlertDialog.Builder ab = new AlertDialog.Builder(RegisterActivity.this);
+                    ab.setMessage("회원가입을 완료하시겠습니까?").setCancelable(false).setPositiveButton("예",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int dialog_id) {
+                                    //User 정보 입력//
+                                    ArrayList<String> engaging_board = new ArrayList<String>();
+                                    engaging_board.add("");
+                                    User user = new User(id, password, name, email, engaging_board);
+                                    user.fcmToken = FirebaseInstanceId.getInstance().getToken();
+                                    //데이터베이스에 입력//
+                                    mDatabaseReference = FirebaseDatabase.getInstance().getReference("information");
+                                    mDatabaseReference.child(id).setValue(user);
+                                    finish();
+                                }
+                            }).setNegativeButton("아니오",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int dialog_id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alert = ab.create();
+                    alert.setTitle("회원가입");
+                    alert.show();
+                }
             }
         }
-
     }
 }
