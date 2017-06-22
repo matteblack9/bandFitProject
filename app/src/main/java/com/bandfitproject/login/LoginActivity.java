@@ -75,10 +75,11 @@ public class LoginActivity extends AppCompatActivity {
             } else {
             }
             BandFitDataBase.getInstance().initChatRoomData();
+            String token = FirebaseInstanceId.getInstance().getToken();
+            DatabaseReference mTokenRef = FirebaseDatabase.getInstance().getReference("information").child(user.id);
+            mTokenRef.child("fcmToken").setValue(token);
+            System.out.println("토큰토큰토큰 " + token);
             if(cb_autuLogin.isChecked()) {
-                String token = FirebaseInstanceId.getInstance().getToken();
-                DatabaseReference mTokenRef = FirebaseDatabase.getInstance().getReference("information").child(user.id);
-                mTokenRef.child("fcmToken").setValue(token);
                 // 자동 로그인을 위한 객체 저장 //
                 mPref = getSharedPreferences("auto_login", MODE_PRIVATE);
                 SharedPreferences.Editor prefsEditor = mPref.edit();
@@ -89,8 +90,8 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             // 로그인 상태 true로 전환 //
-            mDatabaseReference.child(user.id).child("isLogin").setValue(true);
 
+            mDatabaseReference.child(user.id).child("isLogin").setValue(true);
             Intent intent = new Intent(LoginActivity.this, BoardMainActivity.class);
             startActivity(intent);
             finish();
