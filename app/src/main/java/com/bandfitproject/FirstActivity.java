@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
@@ -14,9 +13,6 @@ import com.bandfitproject.board.BoardMainActivity;
 import com.bandfitproject.data.Flag;
 import com.bandfitproject.data.User;
 import com.bandfitproject.login.LoginActivity;
-import com.bandfitproject.service.MyFirebaseInstanceIDService;
-import com.bandfitproject.service.MyFirebaseMessagingService;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,8 +20,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.FirebaseInstanceIdService;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 
 import static com.bandfitproject.login.LoginActivity.user;
@@ -51,6 +45,7 @@ public class FirstActivity extends Activity {
 
         // 이거 설정하면 캐쉬마냥 엄청나게 빠르게 데이터를 가져옴 //
         if(Flag.getInstance().getIsFirst()) {
+            System.out.println("test");
             FirebaseDatabase.getInstance().setPersistenceEnabled(true);
             Flag.getInstance().isNotFirst();
         }

@@ -99,6 +99,7 @@ public class BandFitDataBase {
             public void onCancelled(DatabaseError databaseError) {
             }
         };
+        board_Items.clear();
         mBoardRef.addChildEventListener(mBoardEventListener);
     }
 
@@ -135,6 +136,7 @@ public class BandFitDataBase {
             public void onCancelled(DatabaseError databaseError) {
             }
         };
+        chatRoom_Items.clear();
         mBoardRef.addChildEventListener(mChatRoomEventListener);
     }
 
@@ -201,14 +203,12 @@ public class BandFitDataBase {
     }
 
     public void exit() {
-        mBoardRef.removeEventListener(mChatEventListener);
-        mBoardRef.removeEventListener(mBoardEventListener);
-        mBoardRef.removeEventListener(mChatRoomEventListener);
+        //mBoardRef.removeEventListener(mChatEventListener);
+        //mBoardRef.removeEventListener(mBoardEventListener);
+        //mBoardRef.removeEventListener(mChatRoomEventListener);
         board_Items.clear();
         chatRoom_Items.clear();
-        dataBase_Instance = null;
-        Log.i("22chatroom에 아이템 몇개인가요? " , BandFitDataBase.getChatRoom_Items().size()  + "개 입니다.");
-
+        //dataBase_Instance = null;
     }
 
     public void print_ar() {

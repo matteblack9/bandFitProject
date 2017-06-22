@@ -1,6 +1,5 @@
 package com.bandfitproject.board;
 
-import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,13 +7,10 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
@@ -28,45 +24,30 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Spinner;
 
-
-import com.bandfitproject.BandFitDataBase;
 import com.bandfitproject.BusEvent;
 import com.bandfitproject.BusProvider;
 
 import com.bandfitproject.R;
-import com.bandfitproject.data.BoardData;
 import com.bandfitproject.login.LoginActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.otto.Subscribe;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.bandfitproject.login.LoginActivity.user;
 
 
 public class BoardMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
+    DatabaseReference logState = FirebaseDatabase.getInstance().getReference("information").child(user.id)
+            .child("isLogin");
     public static boolean isChanged = false;
-    /**
-     * 프래그먼트 내용이 변하는 경우 :
-     * 방만들기
-     * 방 참여하기
-     * 방 종료하기
-     * 이정돈가
-     * 방 만들면 -> 채팅룸과 게시판이 변함
-     * 방 참여하면 -> 채팅룸과 게시판이 변함
-     * 방 종료해도 -> 둘다 변함
-     * ????
-     */
-    List<BoardData> bList = new ArrayList<BoardData>();
-    /**
-     * 게시판 만들때, activity를 다시 생성
-     * 기존에 있던 액티비티는 종료시켜야된다.
-     */
+    /*
+    public boolean isFABOpen = false;
+    FloatingActionButton fab1 ;
+    FloatingActionButton fab2 ;
+*/
     public static final int MAKR_BOARD_SUCCESS = 1;
 
     /**
@@ -88,6 +69,9 @@ public class BoardMainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.board_main);
+
+        DatabaseReference logState = FirebaseDatabase.getInstance().getReference("information").child(user.id)
+                .child("isLogin");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -114,9 +98,7 @@ public class BoardMainActivity extends AppCompatActivity
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                //Log.i("여기는 " + position +  "입니다.", "onPageScrolled 입니다.");
             }
-
             @Override
             public void onPageSelected(int position) {
                 //Log.i("테스트입니다. 여기는 " + mSectionsPagerAdapter.getItem(position).getClass() +  "입니다.", "onPageSelected 입니다.");
@@ -137,7 +119,6 @@ public class BoardMainActivity extends AppCompatActivity
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                //Log.i("여기는 " + state +  "입니다.", "onPageScrollStateChanged 입니다.");
             }
         });
 
@@ -146,25 +127,51 @@ public class BoardMainActivity extends AppCompatActivity
 
         // 방만들기 버튼 //
         FloatingActionButton board_main_fab = (FloatingActionButton) findViewById(R.id.board_main_fab);
+        /*fab1 = (FloatingActionButton) findViewById(R.id.test);
+        fab2 = (FloatingActionButton) findViewById(R.id.testBB);*/
+
         board_main_fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("===================================================================");
-                System.out.println();
-                for(BoardData b : BandFitDataBase.getInstance().board_Items) {
-                    System.out.print(b.topic.toString());
-                    System.out.print(", ");
-                }
-                System.out.println();
-                System.out.println("===================================================================");
+                /*if(!isFABOpen){
+                    showFABMenu();
+                }else{
+                    closeFABMenu();
+                }*/
                 Intent intent = new Intent(BoardMainActivity.this, BoardMakeActivity.class);
                 startActivityForResult(intent, MAKR_BOARD_SUCCESS);
             }
         });
     }
 
+    /*private void showFABMenu(){
+        isFABOpen=true;
+        fab1.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
+        fab2.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
+        fab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isFABOpen) {
+                    Intent intent = new Intent(BoardMainActivity.this, BoardMakeActivity.class);
+                    startActivityForResult(intent, MAKR_BOARD_SUCCESS);
+                }
+            }
+        });
+    }
+
+    private void closeFABMenu(){
+        isFABOpen=false;
+        fab1.animate().translationY(0);
+        fab2.animate().translationY(0);
+    }*/
+
     @Override
     public void onBackPressed() {
+        /*if(!isFABOpen){
+            super.onBackPressed();
+        }else{
+            closeFABMenu();
+        }*/
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -179,14 +186,36 @@ public class BoardMainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_logout) {
+            AlertDialog.Builder ab = new AlertDialog.Builder(BoardMainActivity.this);
+            ab.setMessage("로그아웃을 하시겠습니까?").setCancelable(false).setPositiveButton("예",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // 로그인 상태 false로 바꿔줌
+                            DatabaseReference logState = FirebaseDatabase.getInstance().getReference("information").child(user.id)
+                                    .child("isLogin");
+                            logState.setValue(false);
 
-        } else if (id == R.id.nav_slideshow) {
+                            Intent intent = new Intent(BoardMainActivity.this, LoginActivity.class);
 
-        } else if (id == R.id.nav_manage) {
+                            // 자동로그인 상태 해제 //
+                            SharedPreferences logRef = getSharedPreferences("auto_login", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = logRef.edit();
+                            editor.clear();
+                            editor.commit();
 
+                            startActivity(intent);
+                            finish();
+                        }
+                    }).setNegativeButton("아니오",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+            AlertDialog alert = ab.create();
+            alert.setTitle("로그아웃");
+            alert.show();
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
@@ -207,7 +236,6 @@ public class BoardMainActivity extends AppCompatActivity
      *
      * @param requestCode : 게시판 만들어진거 완료되었는가?
      * @param resultCode : OK이면 정상적으로 만들어짐
-     * @param data :data는 사용할게 없음.
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -233,12 +261,9 @@ public class BoardMainActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         Log.i(this.getClass().getName(), "여기는 게시판 메인 onDestroy 입니다.");
-        DatabaseReference logState = FirebaseDatabase.getInstance().getReference("information").child(user.id)
-                .child("isLogin");
         logState.setValue(false);
         super.onDestroy();
         BusProvider.getInstance().unregister(this);
-        BandFitDataBase.getInstance().exit();
     }
 
     @Override
@@ -253,10 +278,10 @@ public class BoardMainActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        //int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        /*if (id == R.id.action_settings) {
             return true;
         }
         else if (id == R.id.action_logout) {
@@ -289,7 +314,7 @@ public class BoardMainActivity extends AppCompatActivity
             AlertDialog alert = ab.create();
             alert.setTitle("로그아웃");
             alert.show();
-        }
+        }*/
         return super.onOptionsItemSelected(item);
     }
 

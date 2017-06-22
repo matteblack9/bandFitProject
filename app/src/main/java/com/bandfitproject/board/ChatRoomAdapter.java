@@ -11,25 +11,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bandfitproject.BandFitDataBase;
-import com.bandfitproject.BusEvent;
-import com.bandfitproject.BusProvider;
 import com.bandfitproject.R;
 import com.bandfitproject.chat.ChatActivity;
 import com.bandfitproject.chat.ChatData;
 import com.bandfitproject.data.BoardData;
-import com.bandfitproject.data.User;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
 import static com.bandfitproject.login.LoginActivity.user;
 
 
@@ -58,7 +51,6 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
         holder.text_type.setText(type);
         holder.text_topic.setText(item.topic);
         holder.text_date.setText(item.date);
-        //if(!item.admin.equals(user.id))
         if(!user.id.equals(item.admin)) {
             holder.btn_removeBoard.setText("나가기");
         }
@@ -109,17 +101,15 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
                     alert.setTitle("방삭제");
                     alert.show();
                 }
-
-                //notifyDataSetChanged();
-                //BusProvider.getInstance().post(new BusEvent("ChatRoomActivity"));
             }
         });
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ChatActivity.class);
-                String chatRoomName = item.getChat_room_name();
+                String chatRoomName = item.chat_room_name;
                 intent.putExtra("chatRoomName", chatRoomName);
+                intent.putExtra("boardName", item.topic);
                 context.startActivity(intent);
             }
         });
