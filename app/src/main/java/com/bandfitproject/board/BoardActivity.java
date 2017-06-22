@@ -1,6 +1,7 @@
 package com.bandfitproject.board;
 
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,6 +41,7 @@ public class BoardActivity extends Fragment {
         String sp_type = parent.getItemAtPosition(position).toString();
         if(!sp_type.equals("종목을 선택하세요")) {
             rAdapter.filter(sp_type);
+            System.out.println("Helloworld");
         }
     }
 

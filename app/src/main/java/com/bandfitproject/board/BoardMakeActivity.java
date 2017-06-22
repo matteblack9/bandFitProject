@@ -42,7 +42,7 @@ public class BoardMakeActivity extends AppCompatActivity {
     @BindView(R.id.make_board_spinner_type) Spinner make_board_spinner_type;
     @BindView(R.id.make_board_et_topic)EditText make_board_et_topic;
     @BindView(R.id.make_board_et_desc)EditText make_board_et_desc;
-    @BindView(R.id.make_board_et_place)EditText make_board_et_place;
+    @BindView(R.id.make_board_et_place)Button make_board_et_place;
     @BindView(R.id.make_board_et_people)EditText make_board_et_people;
     @BindView(R.id.make_board_et_date)Button make_board_et_date;
     @BindView(R.id.make_board_btn)Button make_board_btn;
@@ -58,6 +58,12 @@ public class BoardMakeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.board_make_activity);
         ButterKnife.bind(this);
+    }
+
+    public void show_Place(View view) {
+        Intent intent = new Intent(getApplicationContext(), SearchMapActivity.class);
+        System.out.println("Helloworld111");
+        startActivity(intent);
     }
 
     @OnItemSelected(R.id.make_board_spinner_type)
@@ -188,5 +194,4 @@ public class BoardMakeActivity extends AppCompatActivity {
             make_board_et_date.setText(dateView);
         }
     };
-
 }

@@ -32,6 +32,13 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/appbar_padding_top"
                 android:theme="@style/AppTheme.AppBarOverlay">
+                     <android.support.v7.widget.Toolbar
+                         android:id="@+id/board_main_toolbar"
+                         android:layout_width="match_parent"
+                         android:layout_height="?android:attr/actionBarSize"
+                         app:layout_scrollFlags="scroll|enterAlways"
+                         app:popupTheme="@style/AppTheme.PopupOverlay">
+                     </android.support.v7.widget.Toolbar>
 
             </android.support.design.widget.AppBarLayout>
 

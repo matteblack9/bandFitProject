@@ -102,7 +102,7 @@ public class BoardMainActivity extends AppCompatActivity
         // 프레그먼트 최신화를 요청하는 이벤트를 받는다. //
         navigationView.setNavigationItemSelectedListener(this);
         BusProvider.getInstance().register(this);
-        toolbar.setTitle(user.id);
+
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
