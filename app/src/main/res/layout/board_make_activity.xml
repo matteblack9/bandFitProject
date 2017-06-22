@@ -153,17 +153,19 @@
                 android:layout_marginTop="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
             <Button
                 android:id="@+id/make_board_et_date"
-                android:inputType="datetime"
-                android:background="#0000"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginRight="16dp"
                 android:layout_width="match_parent"
-                android:text=""
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:background="#0000"
+                android:inputType="datetime"
+                android:text="" />
         </LinearLayout>
+
 
         <Button
             android:id="@+id/make_board_btn"
@@ -174,5 +176,6 @@
             android:text="방만들기" />
 
     </LinearLayout>
+
 
 </ScrollView>
