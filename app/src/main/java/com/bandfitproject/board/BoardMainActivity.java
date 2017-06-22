@@ -3,6 +3,7 @@ package com.bandfitproject.board;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -24,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.bandfitproject.BandFitDataBase;
 import com.bandfitproject.BusEvent;
@@ -67,7 +69,8 @@ public class BoardMainActivity extends AppCompatActivity
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-
+    TextView name;
+    TextView email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +91,12 @@ public class BoardMainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         // 프레그먼트 최신화를 요청하는 이벤트를 받는다. //
         navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
+        name = (TextView)header.findViewById(R.id.name_Value);
+        email = (TextView)header.findViewById(R.id.Email_Value);
+        name.setText(user.id);
+        email.setText(user.email);
+
         BusProvider.getInstance().register(this);
 
 
@@ -201,10 +210,37 @@ public class BoardMainActivity extends AppCompatActivity
             AlertDialog alert = ab.create();
             alert.setTitle("로그아웃");
             alert.show();
-        } else if (id == R.id.nav_share) {
+        }else if (id == R.id.facebook) {
+            Intent i1 = new Intent(Intent.ACTION_VIEW);
+            Uri u1 = Uri.parse("https://www.facebook.com");
+            i1.setData(u1);
+            startActivity(i1);
 
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.twitter) {
+            Intent i2 = new Intent(Intent.ACTION_VIEW);
+            Uri u2 = Uri.parse("https://mobile.twitter.com");
+            i2.setData(u2);
+            startActivity(i2);
+        } else if (id == R.id.instagram) {
+            Intent i3 = new Intent(Intent.ACTION_VIEW);
+            Uri u3 = Uri.parse("https://www.instagram.com");
+            i3.setData(u3);
+            startActivity(i3);
+        } else if (id == R.id.school) {
+            Intent i3 = new Intent(Intent.ACTION_VIEW);
+            Uri u3 = Uri.parse("https://mw.pusan.ac.kr/01_main/main.html");
+            i3.setData(u3);
+            startActivity(i3);
+        } else if (id == R.id.onestop) {
+            Intent i3 = new Intent(Intent.ACTION_VIEW);
+            Uri u3 = Uri.parse("https://e-onestop.pusan.ac.kr/index?home=home");
+            i3.setData(u3);
+            startActivity(i3);
+        } else if (id == R.id.plms) {
+            Intent i3 = new Intent(Intent.ACTION_VIEW);
+            Uri u3 = Uri.parse("https://plms.pusan.ac.kr/login.php");
+            i3.setData(u3);
+            startActivity(i3);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -383,7 +419,7 @@ public class BoardMainActivity extends AppCompatActivity
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "내정보";
+                    return "NEWS";
                 case 1:
                     return "게시판";
                 case 2:

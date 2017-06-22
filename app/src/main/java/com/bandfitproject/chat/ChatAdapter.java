@@ -1,6 +1,8 @@
 package com.bandfitproject.chat;
 
 import android.content.Context;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,8 @@ public class ChatAdapter extends ArrayAdapter<ChatData> {
     private final static int TYPE_ANOTHER = 1;
     private final static int TYPE_ADMIN = 2;
     private final SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("a h:mm", Locale.getDefault());
+    SoundPool pool;
+    int ddok;
 
     public ChatAdapter(Context context, int resource) {
         super(context, resource);
@@ -142,12 +146,17 @@ public class ChatAdapter extends ArrayAdapter<ChatData> {
      */
     @Override
     public int getItemViewType(int position) {
+
         String getName = getItem(position).userName;
         if (getName.equals(user.getId()))
             return TYPE_ME;
         else if (getName.equals("ADMIN"))
             return TYPE_ADMIN;
-        else
+        else {
+//            pool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+//            ddok = pool.load(getContext(), R.raw.sound_out, 1);
+//            pool.play(ddok, 1, 1, 0, 0, 1);
             return TYPE_ANOTHER;
+        }
     }
 }

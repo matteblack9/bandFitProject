@@ -10,7 +10,7 @@
         android:id="@+id/list_message"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="9.5"
+        android:layout_weight="9.1"
         android:divider="@null"
         android:clickable="false"
         android:background="#6e9eea"
@@ -18,22 +18,35 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:background="@android:color/white"
         android:orientation="horizontal"
-        android:layout_weight="0.5">
+        android:layout_weight="0.9"
+        android:weightSum="10">
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:onClick="true"
+            android:id = "@+id/chat_add_button"
+            android:layout_height="wrap_content"
+            android:background="#e1e1e1"
+            android:src = "@drawable/add"
+            android:scaleX="0.6"
+            android:scaleY="0.6"
+            android:layout_weight="1.2"/>
 
         <EditText
             android:id="@+id/edit_message"
             android:background="@android:color/white"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="6.8"/>
 
         <Button
             android:id="@+id/btn_send"
             android:background="#FFEC42"
-            android:layout_width="wrap_content"
+            android:layout_weight="2"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:scaleX="0.85"
             android:scaleY="0.8"

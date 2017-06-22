@@ -25,6 +25,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import android.media.AudioManager;
+import android.media.SoundPool;
 import static com.bandfitproject.board.BoardAdapter.FCM_MESSAGE_URL;
 import static com.bandfitproject.board.BoardAdapter.SERVER_KEY;
 import static com.bandfitproject.board.ChatRoomAdapter.share_Data;
@@ -43,10 +45,14 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private ChatAdapter mAdapter;
     private String userName;
     private  String chatRoomName;
+    SoundPool pool;
+    int ddok;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         Intent intent = getIntent();
         chatRoomName = intent.getStringExtra("chatRoomName");
@@ -162,6 +168,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         String message = mEdtMessage.getText().toString();
+        pool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+        ddok = pool.load(this, R.raw.sound_out, 1);
+        pool.play(ddok, 1, 1, 0, 0, 1);
         if (!TextUtils.isEmpty(message)) {
             mEdtMessage.setText("");
             ChatData chatData = new ChatData();

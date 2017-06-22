@@ -3,20 +3,36 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_menu_logout"
             android:title="로그아웃" />
     </group>
 
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/facebook"
+                android:icon="@drawable/ic_menu_facebook"
+                android:title="Facebook" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/twitter"
+                android:icon="@drawable/ic_menu_twitter"
+                android:title="Twitter" />
+            <item
+                android:id="@+id/instagram"
+                android:icon="@drawable/ic_menu_instagram"
+                android:title="Instagram" />
+            <item
+                android:id="@+id/school"
+                android:icon="@drawable/ic_menu_school"
+                android:title="부산대학교" />
+            <item
+                android:id="@+id/onestop"
+                android:icon="@drawable/ic_menu_onestop"
+                android:title="학생지원시스템" />
+            <item
+                android:id="@+id/plms"
+                android:icon="@drawable/ic_menu_plms"
+                android:title="PLMS" />
         </menu>
     </item>
 

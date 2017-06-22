@@ -1,17 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#7a84fa"
     tools:context="com.bandfitproject.FirstActivity">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src = "@drawable/marathon_"
+        android:scaleX="0.8"
+        android:scaleY="0.8"
+        android:id="@+id/imageView2" />
+
     <TextView
-        android:text="BANDFIT"
-        android:textColor="#0000EE"
+        android:text="BanD"
+
+        android:textColor="#ffffff"
+        android:fontFamily="sans-serif"
         android:gravity="center"
         android:textSize="150px"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</LinearLayout>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_first"
+        android:layout_marginLeft="46dp"
+        android:layout_marginStart="46dp"
+        android:layout_marginBottom="14dp"
+        android:layout_alignBottom="@+id/imageView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="FiT"
+
+        android:textColor="#ffffff"
+        android:gravity="center"
+        android:textSize="150px"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textfirst2"
+        android:layout_marginTop="69dp"
+        android:layout_alignTop="@+id/text_first"
+        android:layout_toRightOf="@+id/text_first"
+        android:layout_toEndOf="@+id/text_first" />
+</RelativeLayout>
