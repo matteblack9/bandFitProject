@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.bandfitproject.R;
@@ -62,7 +63,8 @@ public class BoardMakeActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == CLICK_SUCCESSFUL || resultCode == CLICK_SUCCESSFUL){
-            make_board_et_place.setText(data.getStringExtra("Address"));
+            String address = data.getStringExtra("Address");
+            make_board_et_place.setText(address);
         }
     }
 
@@ -122,7 +124,7 @@ public class BoardMakeActivity extends AppCompatActivity {
 
                             BoardData bData = new BoardData(topic, type, 1,
                                     Integer.parseInt(people),
-                                    date, chatRoomName,
+                                    date, chatRoomName, place,
                                     description, chatRoom, en_people);
                             bData.admin = user.id;
                             // 데이터베이스에 정보 입력 -> 게시판 정보
@@ -169,7 +171,7 @@ public class BoardMakeActivity extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-            date = String.format("%d-%d-%d", year, month+1, dayOfMonth);
+            date = String.format("%d월 %d일",month+1, dayOfMonth);
             new TimePickerDialog(BoardMakeActivity.this
                     , timeSetListener, 0, 0, false).show();
         }
@@ -185,9 +187,9 @@ public class BoardMakeActivity extends AppCompatActivity {
             String dateView = date;
             date += " " + String.format("%d:%d", hourOfDay, minute);
             if(hourOfDay > 12) {
-                dateView += " 오후 " + (hourOfDay-12) + "시 "  + minute + "분";
+                dateView += " 오후 " + (hourOfDay-12) + " : "  + minute;
             } else {
-                dateView += " 오전 " + hourOfDay + "시 " + minute + "분";
+                dateView += " 오전 " + hourOfDay + " : " + minute;
             }
             make_board_et_date.setText(dateView);
         }

@@ -24,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.bandfitproject.BandFitDataBase;
 import com.bandfitproject.BusEvent;
@@ -62,11 +63,13 @@ public class BoardMainActivity extends AppCompatActivity
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
-
+    View v;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    TextView name_value;
+    TextView email_value;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +91,11 @@ public class BoardMainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         // 프레그먼트 최신화를 요청하는 이벤트를 받는다. //
         navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
+        name_value = (TextView)header.findViewById(R.id.name_Value);
+        email_value = (TextView)header.findViewById(R.id.Email_Value);
+        name_value.setText(user.id);
+        email_value.setText(user.email);
         BusProvider.getInstance().register(this);
 
 

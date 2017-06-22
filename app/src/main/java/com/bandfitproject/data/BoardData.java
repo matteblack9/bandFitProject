@@ -7,6 +7,7 @@ public class BoardData implements Serializable{
     public String firebaseKey = "";
     public String topic;
     public String type;
+    public String place;
     public int engaged_people;
     public int need_people;
     public String date;
@@ -110,10 +111,11 @@ public class BoardData implements Serializable{
 
 
     public BoardData(String topic, String type, int engaged_people,
-                     int need_people, String date, String chat_room_name,
+                     int need_people, String date, String chat_room_name, String place,
                      String desc, ArrayList<String> chat_room, ArrayList<User> en_people) {
         this.topic = topic;
         this.type = type;
+        this.place = place;
         this.engaged_people = engaged_people;
         this.need_people = need_people;
         this.date = date;

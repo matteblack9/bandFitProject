@@ -119,6 +119,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
         holder.text_type.setText(type);
         holder.text_topic.setText(item.topic);
         holder.text_date.setText(item.date);
+        holder.text_place.setText(item.place);
         String people = item.engaged_people + " / " + item.need_people;
         holder.text_people.setText(people);
         holder.tv_desc.setText(item.desc);
@@ -215,6 +216,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
         @BindView(R.id.board_textview_topic) TextView text_topic;
         @BindView(R.id.board_textview_date) TextView text_date;
         @BindView(R.id.board_textview_people) TextView text_people;
+        @BindView(R.id.board_textview_place)TextView text_place;
         @BindView(R.id.board_tv_desc) TextView tv_desc;
         @BindView(R.id.btn_engage) Button engageBtn;
         //@BindView(R.id.board_sp_search) Spinner board_sp_search;
