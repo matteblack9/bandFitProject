@@ -160,6 +160,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
                     alert.show();
                 }
                 else{
+                    //ㅁㄴㅇㅁㄴㅇ
                     AlertDialog.Builder ab = new AlertDialog.Builder(context);
                     ab.setMessage("방을 나가시겠습니까?").setCancelable(false).setPositiveButton("예",
                             new DialogInterface.OnClickListener() {
