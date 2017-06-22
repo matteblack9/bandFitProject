@@ -39,7 +39,7 @@ public class BoardMakeActivity extends AppCompatActivity {
     @BindView(R.id.make_board_spinner_type) Spinner make_board_spinner_type;
     @BindView(R.id.make_board_et_topic)EditText make_board_et_topic;
     @BindView(R.id.make_board_et_desc)EditText make_board_et_desc;
-    @BindView(R.id.make_board_et_place)EditText make_board_et_place;
+    @BindView(R.id.make_board_et_place)Button make_board_et_place;
     @BindView(R.id.make_board_et_people)EditText make_board_et_people;
     @BindView(R.id.make_board_et_date)Button make_board_et_date;
     @BindView(R.id.make_board_btn)Button make_board_btn;
