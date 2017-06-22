@@ -28,7 +28,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     // Views
     private ListView mListView;
     private EditText mEdtMessage;
-    private Button delete_btn;
     // Values
     private ChatAdapter mAdapter;
     private String userName;
@@ -37,11 +36,13 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.chat_activity);
 
         Intent intent = getIntent();
-
         chatRoomName = intent.getStringExtra("chatRoomName");
+        String boardName = intent.getStringExtra("boardName");
+
+        setContentView(R.layout.chat_activity);
+        setTitle(boardName);
 
         userName = user.getId();
         initViews();

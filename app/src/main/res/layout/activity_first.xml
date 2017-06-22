@@ -8,8 +8,8 @@
     tools:context="com.bandfitproject.FirstActivity">
 
     <TextView
-        android:text="밴드핏"
-        android:textColor="#000000"
+        android:text="Band Fit"
+        android:textColor="#0000EE"
         android:gravity="center"
         android:textSize="150px"
         android:layout_width="match_parent"

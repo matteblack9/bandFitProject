@@ -6,6 +6,15 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="map_view_demo_title">MapView</string>
+    <string name="map_view_demo_desc">기본 맵뷰, 타일 종류</string>
+    <string name="location_demo_title">Location</string>
+    <string name="location_demo_desc">위치 관련 API</string>
+    <string name="search_demo_title">Search</string>
+    <string name="search_demo_desc">키워드 장소검색</string>
+
+    <string name="marker_demo_title">Markers</string>
+    <string name="marker_demo_desc">기본 마커, 커스텀 마커, 마커 동작</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

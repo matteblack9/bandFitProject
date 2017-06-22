@@ -16,13 +16,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
-import com.bandfitproject.BandFitDataBase;
 import com.bandfitproject.R;
 import com.bandfitproject.data.BoardData;
 import com.bandfitproject.data.User;
-import com.bandfitproject.register.RegisterActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -150,10 +147,7 @@ public class BoardMakeActivity extends AppCompatActivity {
             });
             alert.setMessage("모든 정보를 입력해주십시오");
             alert.show();
-
-
         }
-
     }
 
     /**

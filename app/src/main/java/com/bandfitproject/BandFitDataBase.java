@@ -99,6 +99,7 @@ public class BandFitDataBase {
             public void onCancelled(DatabaseError databaseError) {
             }
         };
+        board_Items.clear();
         mBoardRef.addChildEventListener(mBoardEventListener);
     }
 
@@ -135,6 +136,7 @@ public class BandFitDataBase {
             public void onCancelled(DatabaseError databaseError) {
             }
         };
+        chatRoom_Items.clear();
         mBoardRef.addChildEventListener(mChatRoomEventListener);
     }
 
@@ -146,9 +148,12 @@ public class BandFitDataBase {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 User tempUser = dataSnapshot.getValue(User.class);
-                if(bData.engaging_people.contains(tempUser.id)) {
-                    tempUser.engaging_board.remove(bData.chat_room_name);
-                    mInforRef.child(tempUser.id).child("engaging_board").setValue(tempUser.engaging_board);
+                for(User tempU : bData.en_people) {
+                    if(tempU.id.equals(tempUser.id)) {
+                        tempUser.engaging_board.remove(bData.chat_room_name);
+                        mInforRef.child(tempUser.id).child("engaging_board").setValue(tempUser.engaging_board);
+                        break;
+                    }
                 }
             }
 
@@ -193,14 +198,12 @@ public class BandFitDataBase {
     }
 
     public void exit() {
-        mBoardRef.removeEventListener(mChatEventListener);
-        mBoardRef.removeEventListener(mBoardEventListener);
-        mBoardRef.removeEventListener(mChatRoomEventListener);
+        //mBoardRef.removeEventListener(mChatEventListener);
+        //mBoardRef.removeEventListener(mBoardEventListener);
+        //mBoardRef.removeEventListener(mChatRoomEventListener);
         board_Items.clear();
         chatRoom_Items.clear();
-        dataBase_Instance = null;
-        Log.i("22chatroom에 아이템 몇개인가요? " , BandFitDataBase.getChatRoom_Items().size()  + "개 입니다.");
-
+        //dataBase_Instance = null;
     }
 
     public void print_ar() {
@@ -230,7 +233,9 @@ public class BandFitDataBase {
             }
         }
         mBoardRef.child(bData.chat_room_name).setValue(bData);
-        //removeInforEvent(bData);
+        user.engaging_board.remove(bData.chat_room_name);
+        mInforRef.child(user.id).child("engaging_board").setValue(user.engaging_board);
+        removeInforEvent(bData);
         chatRoom_Items.remove(bData);
     }
 

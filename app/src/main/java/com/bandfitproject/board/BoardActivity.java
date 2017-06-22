@@ -1,6 +1,7 @@
 package com.bandfitproject.board;
 
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,17 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.bandfitproject.BandFitDataBase;
 import com.bandfitproject.R;
-import com.bandfitproject.data.BoardData;
 import com.google.firebase.database.FirebaseDatabase;
-import com.squareup.otto.Subscribe;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +35,7 @@ public class BoardActivity extends Fragment {
         String sp_type = parent.getItemAtPosition(position).toString();
         if(!sp_type.equals("종목을 선택하세요")) {
             rAdapter.filter(sp_type);
+            System.out.println("Helloworld");
         }
     }
 
@@ -77,7 +73,6 @@ public class BoardActivity extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        BandFitDataBase.getInstance().exit();
         Log.i(getClass().getName(), FirebaseDatabase.getInstance().toString() + " onDestroy");
 
     }
@@ -92,16 +87,6 @@ public class BoardActivity extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setHasFixedSize(false);
         recyclerView.setLayoutManager(layoutManager);
-
-        //items = BandFitDataBase.getInstance().getBoard_items();
-        System.out.println("===================================================================");
-        System.out.println();
-        for(BoardData b : BandFitDataBase.getInstance().board_Items) {
-            System.out.print(b.topic.toString());
-            System.out.print(", ");
-        }
-        System.out.println();
-        System.out.println("===================================================================");
 
         rAdapter = new BoardAdapter(getContext(), BandFitDataBase.getInstance().board_Items, R.layout.board_fragment);
         recyclerView.setAdapter(rAdapter);

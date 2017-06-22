@@ -15,9 +15,6 @@ import java.util.Locale;
 
 import static com.bandfitproject.login.LoginActivity.user;
 
-/**
- * Created by Hakhyun on 2017-05-27.
- */
 
 public class ChatAdapter extends ArrayAdapter<ChatData> {
     private final static int TYPE_ME = 0;

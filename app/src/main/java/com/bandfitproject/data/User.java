@@ -1,7 +1,6 @@
 package com.bandfitproject.data;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class User {
     public String firebasekey;

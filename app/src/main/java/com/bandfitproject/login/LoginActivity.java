@@ -39,7 +39,6 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.et_login)EditText et_login;
     @BindView(R.id.et_password)EditText et_password;
     @BindView(R.id.cb_autoLogin)CheckBox cb_autuLogin;
-    @BindView(R.id.btn) Button btn;
 
     //로그인시 공유되는 유저정보//
     public static User user;
@@ -50,9 +49,6 @@ public class LoginActivity extends AppCompatActivity {
     //데이터베이스에서 유저를 찾았는지 확인//
     boolean find;
     DatabaseReference mDatabaseReference ;
-
-    // 자동 로그인 //
-    //SharedPreferences mPref ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,11 +66,6 @@ public class LoginActivity extends AppCompatActivity {
      void onRegisterClick() {
         Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
         startActivity(intent);
-    }
-    @OnClick(R.id.btn)
-    void onBtnClick() {
-        DatabaseReference mR = FirebaseDatabase.getInstance().getReference();
-        mR.setValue("eeee");
     }
 
     public void search_end(boolean gFind) {
@@ -98,7 +89,11 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         } else {
-            Toast.makeText(LoginActivity.this, "아이디/비밀번호를 확인하세요", Toast.LENGTH_SHORT).show();
+            if((user.isLogin)) {
+                Toast.makeText(LoginActivity.this, "이미 접속중인 아이디입니다", Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(LoginActivity.this, "아이디/비밀번호를 확인하세요", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -133,6 +128,7 @@ public class LoginActivity extends AppCompatActivity {
                             } else {
                                 user = dataSnapshot.getValue(User.class);
                                 if(password.equals(user.password) && !(user.isLogin)) {
+                                //if(password.equals(user.password)) {
                                     find = true;
                                     BandFitDataBase.getInstance().initChatRoomData();
                                 } else {

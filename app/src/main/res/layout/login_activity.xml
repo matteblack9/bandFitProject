@@ -49,7 +49,7 @@
             android:text="회원가입" />
 
     </LinearLayout>
-
+<!--
     <Button
         android:id="@+id/btn"
         android:layout_marginLeft="70dp"
@@ -60,7 +60,7 @@
         android:textColor="@android:color/white"
         android:background="#89513a"
         android:text="비회원으로 로그인"/>
-
+-->
     <CheckBox
         android:id="@+id/cb_autoLogin"
         android:layout_marginLeft="70dp"

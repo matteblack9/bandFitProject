@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bandfitproject.BandFitDataBase;
 import com.bandfitproject.BusEvent;
@@ -22,12 +21,10 @@ import com.bandfitproject.chat.ChatData;
 import com.bandfitproject.data.BoardData;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
 import static com.bandfitproject.login.LoginActivity.user;
 
 
@@ -56,52 +53,66 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
         holder.text_type.setText(type);
         holder.text_topic.setText(item.topic);
         holder.text_date.setText(item.date);
-        //if(!item.admin.equals(user.id))
         if(!user.id.equals(item.admin)) {
             holder.btn_removeBoard.setText("나가기");
-            System.out.println("나가기 테스트");
         }
 
         holder.btn_removeBoard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(item.admin.equals(user.id))
-                    BandFitDataBase.getInstance().removeBoard(item);
-                else{
-                    /*AlertDialog.Builder alt_bld = new AlertDialog.Builder(context);
-                    alt_bld.setMessage("당신은 방장이 아닙니다.").setCancelable(
-                            false).setPositiveButton("Yes",
+                if(item.admin.equals(user.id)) {
+                    AlertDialog.Builder ab = new AlertDialog.Builder(context);
+                    ab.setMessage("방을 지우시겠습니까?").setCancelable(false).setPositiveButton("예",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    // Action for 'Yes' Button
+                                    BandFitDataBase.getInstance().removeBoard(item);
+                                }
+                            }).setNegativeButton("아니오",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
                                 }
                             });
-                    AlertDialog alert = alt_bld.create();
-                    // Title for AlertDialog
-                    alert.setTitle("문제가 있어요!");
-                    // Icon for AlertDialog
-                    alert.show();*/
-                    BandFitDataBase.getInstance().outBoard(item);
-                    // 처음 입장했을때, 나타나는 메세지 //
-                    ChatData mChatData = new ChatData();
-                    mChatData.userName = "ADMIN";
-                    mChatData.time = System.currentTimeMillis();
-                    mChatData.message = user.id + "님이 나갔습니다." ;
-                    DatabaseReference mRef =
-                            FirebaseDatabase.getInstance().getReference("boardChat").child(item.chat_room_name);
-                    mRef.push().setValue(mChatData);
+                    AlertDialog alert = ab.create();
+                    alert.setTitle("방삭제");
+                    alert.show();
                 }
-
-                //notifyDataSetChanged();
-                //BusProvider.getInstance().post(new BusEvent("ChatRoomActivity"));
+                else{
+                    AlertDialog.Builder ab = new AlertDialog.Builder(context);
+                    ab.setMessage("방을 나가시겠습니까?").setCancelable(false).setPositiveButton("예",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    BandFitDataBase.getInstance().outBoard(item);
+                                    // 방을 나갔을 때, 나타나는 메세지 //
+                                    ChatData mChatData = new ChatData();
+                                    mChatData.userName = "ADMIN";
+                                    mChatData.time = System.currentTimeMillis();
+                                    mChatData.message = user.id + "님이 나갔습니다." ;
+                                    DatabaseReference mRef =
+                                            FirebaseDatabase.getInstance().getReference("boardChat").child(item.chat_room_name);
+                                    mRef.push().setValue(mChatData);
+                                    BusProvider.getInstance().post(new BusEvent("BoardActivity"));
+                                    // notifyDataSetChanged();
+                                }
+                            }).setNegativeButton("아니오",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alert = ab.create();
+                    alert.setTitle("방삭제");
+                    alert.show();
+                }
             }
         });
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ChatActivity.class);
-                String chatRoomName = item.getChat_room_name();
+                String chatRoomName = item.chat_room_name;
                 intent.putExtra("chatRoomName", chatRoomName);
+                intent.putExtra("boardName", item.topic);
                 context.startActivity(intent);
             }
         });
