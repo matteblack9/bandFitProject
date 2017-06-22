@@ -182,6 +182,11 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
         @BindView(R.id.chatroom_textview_date) TextView text_date;
         @BindView(R.id.btn_removeBoard) Button btn_removeBoard;
 
+        // ++ //
+        @BindView(R.id.tx_id) TextView tx_id;
+        @BindView(R.id.tx_msg) TextView tx_msg;
+        // ++ //
+
         public ViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);

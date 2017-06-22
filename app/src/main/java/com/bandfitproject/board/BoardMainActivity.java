@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -48,13 +49,8 @@ public class BoardMainActivity extends AppCompatActivity
             .child("isLogin");
     public static boolean isChanged = false;
     boolean logout = false;
-    /*
-    public boolean isFABOpen = false;
-    FloatingActionButton fab1 ;
-    FloatingActionButton fab2 ;
-*/
     public static final int MAKR_BOARD_SUCCESS = 1;
-
+    BroadcastReceiver mReceiver;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -69,16 +65,6 @@ public class BoardMainActivity extends AppCompatActivity
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-
-    public class TestReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String name = intent.getAction();
-            if(name.equals("com.bandfit.SEND_BROAD_CAST")) {
-                System.out.println("asdasdasdasdasd");
-            }
-        }
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +72,22 @@ public class BoardMainActivity extends AppCompatActivity
 
         DatabaseReference logState = FirebaseDatabase.getInstance().getReference("information").child(user.id)
                 .child("isLogin");
+
+
+         //브로드캐스트의 액션을 등록하기 위한 인텐트 필터
+         IntentFilter intentFilter = new IntentFilter();
+         intentFilter.addAction("com.bandfit.SEND_BROAD_CAST");
+         //동적 리시버 구현
+         mReceiver = new BroadcastReceiver(){
+            @Override public void onReceive(Context context, Intent intent){
+                isChanged = true;
+                mSectionsPagerAdapter.notifyDataSetChanged();
+                isChanged = false;
+            }
+         };
+         //Receiver 등록
+         registerReceiver(mReceiver, intentFilter);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -250,6 +252,7 @@ public class BoardMainActivity extends AppCompatActivity
         if(!logout)
             BandFitDataBase.getInstance().exit();
         BusProvider.getInstance().unregister(this);
+        unregisterReceiver(mReceiver);
     }
 
     @Override
