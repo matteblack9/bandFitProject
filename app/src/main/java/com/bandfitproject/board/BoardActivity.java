@@ -1,7 +1,6 @@
 package com.bandfitproject.board;
 
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,35 +32,19 @@ public class BoardActivity extends Fragment {
     void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Log.i(this.getClass().getName(), "스피너");
         String sp_type = parent.getItemAtPosition(position).toString();
-        if(!sp_type.equals("종목을 선택하세요")) {
+        rAdapter.filter(sp_type);
+        /*if(!sp_type.equals("종목을 선택하세요")) {
             rAdapter.filter(sp_type);
-            System.out.println("Helloworld");
-        }
+        }*/
     }
 
     public BoardActivity() {
         // Required empty public constructor
     }
-    @Override
-    public void onResume() {
-        super.onResume();
-        //Log.i(this.getClass().getName(), "여기는 게시판 onResume 입니다.");
-    }
 
     @Override
-    public void onPause() {
-       // Log.i(this.getClass().getName(), "여기는 게시판 onPause 입니다.");
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-      //*  Log.i(this.getClass().getName(), "여기는 게시판 onStop 입니다.");
-        super.onStop();
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {super.onCreate(savedInstanceState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override

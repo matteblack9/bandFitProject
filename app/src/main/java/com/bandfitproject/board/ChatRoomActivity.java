@@ -70,7 +70,6 @@ public class ChatRoomActivity extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.i("4chatroom에 아이템 몇개일까여? " , BandFitDataBase.getChatRoom_Items().size()  + "개 입니다.");
-        //Log.i(this.getClass().getName(), "여기는 채팅룸 크리에이트 뷰 입니다.");
 
         View view = inflater.inflate(R.layout.board_chat_room_fragment, container, false);
         unbinder = ButterKnife.bind(this, view);
@@ -79,11 +78,9 @@ public class ChatRoomActivity extends Fragment {
         recyclerView.setHasFixedSize(false);
         recyclerView.setLayoutManager(layoutManager);
 
-        //items = BandFitDataBase.getInstance().getChatRoom_Items();
         cAdapter = new ChatRoomAdapter(getContext(), BandFitDataBase.getInstance().getChatRoom_Items()
                 , R.layout.board_chat_room_fragment);
         recyclerView.setAdapter(cAdapter);
-        // Inflate the layout for this fragment
         return view;
     }
 }

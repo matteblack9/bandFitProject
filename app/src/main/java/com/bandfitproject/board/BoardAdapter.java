@@ -103,9 +103,19 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
 
     // 검색 //
    public void filter(String type) {
-       items.clear();
-       for(BoardData bData : searchList) {
-           if(type.equals(bData.type)) {
+       if(!type.equals("종목을 선택하세요")) {
+           System.out.println("eeeeeeeeeeeeeeeeeeeee");
+
+           items.clear();
+           for (BoardData bData : searchList) {
+               if (type.equals(bData.type)) {
+                   items.add(bData);
+               }
+           }
+       } else {
+           System.out.println("asdasdasdasdasdasdasd");
+           items.clear();
+           for (BoardData bData : searchList) {
                items.add(bData);
            }
        }

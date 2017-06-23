@@ -19,7 +19,6 @@ import com.bandfitproject.R;
 import com.bandfitproject.chat.ChatActivity;
 import com.bandfitproject.chat.ChatData;
 import com.bandfitproject.data.BoardData;
-import com.bandfitproject.data.BoardData2;
 import com.bandfitproject.data.User;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;

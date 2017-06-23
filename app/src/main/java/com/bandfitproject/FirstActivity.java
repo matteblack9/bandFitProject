@@ -36,15 +36,12 @@ public class FirstActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(getClass().getName(), "onCreate");
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_first);
 
-        // 이거 설정하면 캐쉬마냥 엄청나게 빠르게 데이터를 가져옴 //
         if(Flag.getInstance().getIsFirst()) {
-            System.out.println("test");
             FirebaseDatabase.getInstance().setPersistenceEnabled(true);
             Flag.getInstance().isNotFirst();
         }

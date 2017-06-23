@@ -1,19 +1,15 @@
 package com.bandfitproject.chat;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import com.bandfitproject.R;
-import com.bandfitproject.data.BoardData;
 import com.bandfitproject.data.User;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -47,6 +43,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private  String chatRoomName;
     private long def_time = 0;
 
+    @Override protected void onResume(){
+        super.onResume();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,9 +56,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = getIntent();
         chatRoomName = intent.getStringExtra("chatRoomName");
         String boardName = intent.getStringExtra("boardName");
-        //bData = (BoardData)intent.getSerializableExtra("boardData");
-        //System.out.println("testest: " + bData.topic);
-
 
         setContentView(R.layout.chat_activity);
         setTitle(boardName);
@@ -124,9 +123,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 chatData.firebaseKey = dataSnapshot.getKey();
                 mAdapter.add(chatData);
                 //입력한쪽으로 view 이동!
-                mListView.smoothScrollToPosition(mAdapter.getCount());
+                mListView.setSelection(mAdapter.getCount());
+                //mListView.smoothScrollToPosition(mAdapter.getCount());
             }
-
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
             }

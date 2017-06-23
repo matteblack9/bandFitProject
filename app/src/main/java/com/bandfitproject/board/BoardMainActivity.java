@@ -262,46 +262,6 @@ public class BoardMainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        //int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        /*if (id == R.id.action_settings) {
-            return true;
-        }
-        else if (id == R.id.action_logout) {
-            AlertDialog.Builder ab = new AlertDialog.Builder(BoardMainActivity.this);
-            ab.setMessage("로그아웃을 하시겠습니까?").setCancelable(false).setPositiveButton("예",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            // 로그인 상태 false로 바꿔줌
-                            DatabaseReference logState = FirebaseDatabase.getInstance().getReference("information").child(user.id)
-                                    .child("isLogin");
-                            logState.setValue(false);
-
-                            Intent intent = new Intent(BoardMainActivity.this, LoginActivity.class);
-
-                            // 자동로그인 상태 해제 //
-                            SharedPreferences logRef = getSharedPreferences("auto_login", MODE_PRIVATE);
-                            SharedPreferences.Editor editor = logRef.edit();
-                            editor.clear();
-                            editor.commit();
-
-                            startActivity(intent);
-                            finish();
-                        }
-                    }).setNegativeButton("아니오",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    });
-            AlertDialog alert = ab.create();
-            alert.setTitle("로그아웃");
-            alert.show();
-        }*/
         return super.onOptionsItemSelected(item);
     }
 
