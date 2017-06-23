@@ -79,6 +79,8 @@ public class BandFitDataBase {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                try{ Thread.sleep(1000);
+                }catch(Exception e){}
                 BusProvider.getInstance().post(new BusEvent("ChatRoomActivity"));
 
             }
@@ -128,6 +130,8 @@ public class BandFitDataBase {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                try{ Thread.sleep(1000);
+                }catch(Exception e){}
                 BusProvider.getInstance().post(new BusEvent("ChatRoomActivity"));
 
             }
