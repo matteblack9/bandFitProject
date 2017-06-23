@@ -37,7 +37,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     .setSmallIcon(R.mipmap.ic_launcher) // 알림 영역에 노출 될 아이콘.
                     .setContentTitle(getString(R.string.app_name)) // 알림 영역에 노출 될 타이틀
                     .setDefaults(Notification.DEFAULT_SOUND)
-                    .setContentIntent(contentIntent)
                     .setContentText(body); // Firebase Console 에서 사용자가 전달한 메시지내용
 
             NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
