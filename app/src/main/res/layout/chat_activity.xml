@@ -24,23 +24,23 @@
         android:layout_weight="0.9"
         android:weightSum="10">
 
-        <ImageButton
-            android:layout_width="0dp"
-            android:onClick="true"
-            android:id = "@+id/chat_add_button"
-            android:layout_height="wrap_content"
-            android:background="#e1e1e1"
-            android:src = "@drawable/add"
-            android:scaleX="0.6"
-            android:scaleY="0.6"
-            android:layout_weight="1.2"/>
+        <!--<ImageButton-->
+            <!--android:layout_width="0dp"-->
+            <!--android:onClick="true"-->
+            <!--android:id = "@+id/chat_add_button"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="#e1e1e1"-->
+            <!--android:src = "@drawable/add"-->
+            <!--android:scaleX="0.6"-->
+            <!--android:scaleY="0.6"-->
+            <!--android:layout_weight="1.2"/>-->
 
         <EditText
             android:id="@+id/edit_message"
             android:background="@android:color/white"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="6.8"/>
+            android:layout_weight="8"/>
 
         <Button
             android:id="@+id/btn_send"

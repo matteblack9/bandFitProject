@@ -1,11 +1,13 @@
 package com.bandfitproject.chat;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -47,11 +49,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private  String chatRoomName;
     SoundPool pool;
     int ddok;
-
+    InputMethodManager imm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
 
         Intent intent = getIntent();
@@ -59,7 +60,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         String boardName = intent.getStringExtra("boardName");
         //bData = (BoardData)intent.getSerializableExtra("boardData");
         //System.out.println("testest: " + bData.topic);
-
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         setContentView(R.layout.chat_activity);
         setTitle(boardName);
 
