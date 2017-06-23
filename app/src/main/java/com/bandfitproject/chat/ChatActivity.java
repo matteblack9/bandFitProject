@@ -40,7 +40,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     // Values
     private ChatAdapter mAdapter;
     private String userName;
-    private  String chatRoomName;
+    private String chatRoomName;
+    private String boardName ;
     private long def_time = 0;
 
     @Override protected void onResume(){
@@ -55,7 +56,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         Intent intent = getIntent();
         chatRoomName = intent.getStringExtra("chatRoomName");
-        String boardName = intent.getStringExtra("boardName");
+        boardName = intent.getStringExtra("boardName");
 
         setContentView(R.layout.chat_activity);
         setTitle(boardName);
@@ -66,7 +67,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void sendPostToFCM(User engaging_user, String msg) {
-        final String message = user.id + " : " + msg;
+        final String message = "게시판: " + boardName + '\n' + user.id + " : " + msg;
         final String fcmToken = engaging_user.fcmToken;
         new Thread(new Runnable() {
             @Override
@@ -123,6 +124,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 chatData.firebaseKey = dataSnapshot.getKey();
                 mAdapter.add(chatData);
                 //입력한쪽으로 view 이동!
+                //수정
                 mListView.setSelection(mAdapter.getCount());
                 //mListView.smoothScrollToPosition(mAdapter.getCount());
             }

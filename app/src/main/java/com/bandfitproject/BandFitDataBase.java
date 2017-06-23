@@ -123,14 +123,18 @@ public class BandFitDataBase {
                     }
                 }else {
                 }
+                BusProvider.getInstance().post(new BusEvent("ChatRoomActivity"));
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                BusProvider.getInstance().post(new BusEvent("ChatRoomActivity"));
+
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
+                BusProvider.getInstance().post(new BusEvent("ChatRoomActivity"));
             }
 
             @Override
@@ -142,7 +146,7 @@ public class BandFitDataBase {
             }
         };
         chatRoom_Items.clear();
-        //mBoardRef.removeEventListener(mChatRoomEventListener);
+        mBoardRef.removeEventListener(mChatRoomEventListener);
         mBoardRef.addChildEventListener(mChatRoomEventListener);
     }
 

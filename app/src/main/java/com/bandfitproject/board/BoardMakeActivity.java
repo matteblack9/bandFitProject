@@ -59,6 +59,7 @@ public class BoardMakeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.board_make_activity);
+        setTitle(user.id);
         ButterKnife.bind(this);
     }
 

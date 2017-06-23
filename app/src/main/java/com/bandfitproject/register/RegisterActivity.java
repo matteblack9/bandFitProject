@@ -59,8 +59,10 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         // 중복되는 값이 없다.
-                        if(dataSnapshot.getValue() == null)
+                        if(dataSnapshot.getValue() == null) {
                             result = true;
+                            end(true);
+                        }
                     }
 
                     @Override
@@ -74,7 +76,9 @@ public class RegisterActivity extends AppCompatActivity {
         }
         return false;
     }
-
+    public boolean end(boolean result) {
+        return true;
+    }
     @OnClick(R.id.register_btn_sign_in)
     void onSignInClick() {
         id = register_et_id.getText().toString();
@@ -82,49 +86,62 @@ public class RegisterActivity extends AppCompatActivity {
         password_check = register_et_password_check.getText().toString();
         name = register_et_name.getText().toString();
         email = register_et_email.getText().toString();
-        boolean notOverlap = check_overlap();
-        if(notOverlap) {
-            Toast.makeText(RegisterActivity.this, "이미 존재하는 아이디입니다.", Toast.LENGTH_SHORT).show();
-        } else {
-            if(email == null || !email.contains("@")) {
-                Toast.makeText(RegisterActivity.this, "이메일을 확인하세요", Toast.LENGTH_SHORT).show();
-            } else if(!password.equals(password_check)) {
-                Toast.makeText(RegisterActivity.this, "비밀번호를 확인하세요", Toast.LENGTH_SHORT).show();
-            } else if(name == null) {
-                Toast.makeText(RegisterActivity.this, "이름을 확인하세요", Toast.LENGTH_SHORT).show();
-            } else if(password == null) {
-                Toast.makeText(RegisterActivity.this, "비밀번호 란을 채워주세요", Toast.LENGTH_SHORT).show();
-            } else if(password_check == null) {
-                Toast.makeText(RegisterActivity.this, "비밀번호 확인란을 채워주세요", Toast.LENGTH_SHORT).show();
-            } else {
-                if(password.length() < 8) {
-                    Toast.makeText(RegisterActivity.this, "비밀번호를 8자리 이상으로 해주세요.", Toast.LENGTH_SHORT).show();
-                } else {
-                    AlertDialog.Builder ab = new AlertDialog.Builder(RegisterActivity.this);
-                    ab.setMessage("회원가입을 완료하시겠습니까?").setCancelable(false).setPositiveButton("예",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int dialog_id) {
-                                    //User 정보 입력//
-                                    ArrayList<String> engaging_board = new ArrayList<String>();
-                                    engaging_board.add("");
-                                    User user = new User(id, password, name, email, engaging_board);
-                                    user.fcmToken = FirebaseInstanceId.getInstance().getToken();
-                                    //데이터베이스에 입력//
-                                    mDatabaseReference = FirebaseDatabase.getInstance().getReference("information");
-                                    mDatabaseReference.child(id).setValue(user);
-                                    finish();
+        Query query = FirebaseDatabase.getInstance().getReference("information").child(id);
+        query.addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        // 중복되는 값이 없다.
+                        if(dataSnapshot.getValue() == null) {
+                            if(email == null || !email.contains("@")) {
+                                Toast.makeText(RegisterActivity.this, "이메일을 확인하세요", Toast.LENGTH_SHORT).show();
+                            } else if(!password.equals(password_check)) {
+                                Toast.makeText(RegisterActivity.this, "비밀번호를 확인하세요", Toast.LENGTH_SHORT).show();
+                            } else if(name == null) {
+                                Toast.makeText(RegisterActivity.this, "이름을 확인하세요", Toast.LENGTH_SHORT).show();
+                            } else if(password == null) {
+                                Toast.makeText(RegisterActivity.this, "비밀번호 란을 채워주세요", Toast.LENGTH_SHORT).show();
+                            } else if(password_check == null) {
+                                Toast.makeText(RegisterActivity.this, "비밀번호 확인란을 채워주세요", Toast.LENGTH_SHORT).show();
+                            } else {
+                                if(password.length() < 8) {
+                                    Toast.makeText(RegisterActivity.this, "비밀번호를 8자리 이상으로 해주세요.", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    AlertDialog.Builder ab = new AlertDialog.Builder(RegisterActivity.this);
+                                    ab.setMessage("회원가입을 완료하시겠습니까?").setCancelable(false).setPositiveButton("예",
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int dialog_id) {
+                                                    //User 정보 입력//
+                                                    ArrayList<String> engaging_board = new ArrayList<String>();
+                                                    engaging_board.add("");
+                                                    User user = new User(id, password, name, email, engaging_board);
+                                                    user.fcmToken = FirebaseInstanceId.getInstance().getToken();
+                                                    //데이터베이스에 입력//
+                                                    mDatabaseReference = FirebaseDatabase.getInstance().getReference("information");
+                                                    mDatabaseReference.child(id).setValue(user);
+                                                    finish();
+                                                }
+                                            }).setNegativeButton("아니오",
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int dialog_id) {
+                                                    dialog.cancel();
+                                                }
+                                            });
+                                    AlertDialog alert = ab.create();
+                                    alert.setTitle("회원가입");
+                                    alert.show();
                                 }
-                            }).setNegativeButton("아니오",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int dialog_id) {
-                                    dialog.cancel();
-                                }
-                            });
-                    AlertDialog alert = ab.create();
-                    alert.setTitle("회원가입");
-                    alert.show();
+                            }
+                        }else {
+                            Toast.makeText(RegisterActivity.this, "이미 존재하는 아이디입니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
                 }
-            }
-        }
+        );
+
     }
 }
