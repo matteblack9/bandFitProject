@@ -1,19 +1,15 @@
 package com.bandfitproject.chat;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import com.bandfitproject.R;
-import com.bandfitproject.data.BoardData;
 import com.bandfitproject.data.User;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -27,8 +23,6 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import android.media.AudioManager;
-import android.media.SoundPool;
 import static com.bandfitproject.board.BoardAdapter.FCM_MESSAGE_URL;
 import static com.bandfitproject.board.BoardAdapter.SERVER_KEY;
 import static com.bandfitproject.board.ChatRoomAdapter.share_Data;
@@ -47,18 +41,22 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private ChatAdapter mAdapter;
     private String userName;
     private  String chatRoomName;
-    SoundPool pool;
-    int ddok;
+    private long def_time = 0;
+
+    @Override protected void onResume(){
+        super.onResume();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
         chatRoomName = intent.getStringExtra("chatRoomName");
         String boardName = intent.getStringExtra("boardName");
-        //bData = (BoardData)intent.getSerializableExtra("boardData");
-        //System.out.println("testest: " + bData.topic);
+
         setContentView(R.layout.chat_activity);
         setTitle(boardName);
 
@@ -116,7 +114,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         //CREATE DB와 비슷한 역할
         mDatabaseReference = mFirebaseDatabase.getReference("boardChat").child(chatRoomName);
-
         //child에 대한 Event를 다룬다.
         mChildEventListener = new ChildEventListener() {
             @Override
@@ -126,9 +123,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 chatData.firebaseKey = dataSnapshot.getKey();
                 mAdapter.add(chatData);
                 //입력한쪽으로 view 이동!
-                mListView.smoothScrollToPosition(mAdapter.getCount());
+                mListView.setSelection(mAdapter.getCount());
+                //mListView.smoothScrollToPosition(mAdapter.getCount());
             }
-
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
             }
@@ -161,15 +158,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
         mDatabaseReference.removeEventListener(mChildEventListener);
-        Log.i("채팅 액티비티 onDestory", "리스너 삭제");
+        def_time = 0;
     }
 
     @Override
     public void onClick(View v) {
         String message = mEdtMessage.getText().toString();
-        pool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
-        ddok = pool.load(this, R.raw.sound_out, 1);
-        pool.play(ddok, 1, 1, 0, 0, 1);
         if (!TextUtils.isEmpty(message)) {
             mEdtMessage.setText("");
             ChatData chatData = new ChatData();
@@ -177,10 +171,13 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             chatData.message = message;
             chatData.time = System.currentTimeMillis();
             mDatabaseReference.push().setValue(chatData);
+
+            mListView.smoothScrollToPosition(mAdapter.getCount());
         }
         for(User engaging_user : share_Data.en_people) {
-            if(!engaging_user.id.equals(user.id))
+            if(!engaging_user.id.equals(user.id)) {
                 sendPostToFCM(engaging_user, message);
+            }
         }
     }
 }
