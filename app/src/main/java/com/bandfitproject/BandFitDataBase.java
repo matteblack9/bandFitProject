@@ -73,10 +73,14 @@ public class BandFitDataBase {
                 BoardData bData = dataSnapshot.getValue(BoardData.class);
                 bData.firebaseKey = dataSnapshot.getKey();
                 board_Items.add(bData);
+                BusProvider.getInstance().post(new BusEvent("ChatRoomActivity"));
+
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                BusProvider.getInstance().post(new BusEvent("ChatRoomActivity"));
+
             }
 
             @Override
@@ -118,7 +122,6 @@ public class BandFitDataBase {
                         chatRoom_Items.add(bData);
                     }
                 }else {
-                    Log.i(getClass().getName(), " 이미 있는 겁니다. ");
                 }
             }
 
@@ -196,7 +199,6 @@ public class BandFitDataBase {
         chatRoom_Items.add(bData);
         // 채팅방 리스트를 추가시켜주고
         // 게시판 리스트는 수정해주어야 된다
-        Log.i("push_Engaging_Board " , BandFitDataBase.getChatRoom_Items().size()  + "개 입니다.");
 
     }
 

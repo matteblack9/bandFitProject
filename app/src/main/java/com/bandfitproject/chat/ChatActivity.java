@@ -49,7 +49,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private  String chatRoomName;
     SoundPool pool;
     int ddok;
-    InputMethodManager imm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +59,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         String boardName = intent.getStringExtra("boardName");
         //bData = (BoardData)intent.getSerializableExtra("boardData");
         //System.out.println("testest: " + bData.topic);
-        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         setContentView(R.layout.chat_activity);
         setTitle(boardName);
 

@@ -13,6 +13,6 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     public void onTokenRefresh() {
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         System.out.println(TAG + "FirebaseInstanceId Refreshed token: " + refreshedToken);
-        Log.d(TAG, "FirebaseInstanceId Refreshed token: " + refreshedToken);
+       //Log.d(TAG, "FirebaseInstanceId Refreshed token: " + refreshedToken);
     }
 }

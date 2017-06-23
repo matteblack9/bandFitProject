@@ -107,7 +107,6 @@ public class BoardMakeActivity extends AppCompatActivity {
 
         if(topic.length() != 0 && description.length() !=0 && place.length() != 0 && people.length() != 0 && date.length() != 0) {
             // 다이얼 로그 생성, 완료 시 방이 만들어진다. //
-            Log.i(getClass().getName(), "방 만들기 버튼 누릅니다.");
 
             AlertDialog.Builder ab = new AlertDialog.Builder(BoardMakeActivity.this);
             ab.setMessage("방을 만드시겠습니까?").setCancelable(false).setPositiveButton("예",
