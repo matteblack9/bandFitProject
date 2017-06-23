@@ -1,5 +1,6 @@
 package com.bandfitproject.login;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -34,7 +35,7 @@ import butterknife.OnClick;
 
 import static com.bandfitproject.FirstActivity.mPref;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends Activity {
     //위젯 바인딩//
     @BindView(R.id.btn_login) Button btn_login;
     @BindView(R.id.btn_register)Button btn_register;

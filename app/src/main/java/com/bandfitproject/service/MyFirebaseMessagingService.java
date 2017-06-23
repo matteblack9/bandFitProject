@@ -34,7 +34,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     PendingIntent.getActivity(this, 0, new Intent(this, FirstActivity.class), 0);
 
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext())
-                    .setSmallIcon(R.mipmap.ic_launcher) // 알림 영역에 노출 될 아이콘.
+                    .setSmallIcon(R.drawable.notification) // 알림 영역에 노출 될 아이콘.
                     .setContentTitle(getString(R.string.app_name)) // 알림 영역에 노출 될 타이틀
                     .setDefaults(Notification.DEFAULT_SOUND)
                     .setContentIntent(contentIntent)

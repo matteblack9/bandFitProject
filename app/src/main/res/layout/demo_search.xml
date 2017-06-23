@@ -6,15 +6,17 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:orientation="horizontal" >
 
         <EditText
             android:id="@+id/editTextQuery"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="5"
             android:text=""
+            android:imeOptions="actionSearch"
+            android:inputType="text"
             android:ems="10" >
 
             <requestFocus />
@@ -22,10 +24,12 @@
 
         <Button
             android:id="@+id/buttonSearch"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="검색" />
+            android:layout_weight="1.00"
+            android:scaleX="0.5"
+            android:background="@drawable/magnifying_glass"
+            android:scaleY="0.6" />
 
     </LinearLayout>
 

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FF7A84FA"
+    android:background="#5966fc"
     android:orientation="vertical"
     tools:context="com.bandfitproject.login.LoginActivity"
     android:weightSum="1">
@@ -45,6 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ID :"
+            android:fontFamily="sans-serif-condensed"
             android:textColor="#ffffff"
             android:textSize="25dp" />
 
@@ -53,6 +54,7 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:textColor="#ffffff"
             android:layout_marginBottom="20px"
             android:inputType="textEmailAddress"
             android:maxLines="1"
@@ -68,6 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="PW :"
+            android:fontFamily="sans-serif-condensed"
             android:textColor="#ffffff"
             android:textSize="25dp"/>
     <EditText
@@ -75,6 +78,7 @@
         android:layout_gravity="center"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:textColor="#ffffff"
         android:textColorHint="@android:color/black"
         android:inputType="textPassword"
         android:maxLines="1"/>

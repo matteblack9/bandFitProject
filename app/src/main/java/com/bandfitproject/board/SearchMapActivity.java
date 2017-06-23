@@ -1,11 +1,13 @@
 package com.bandfitproject.board;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -38,7 +40,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class SearchMapActivity extends FragmentActivity implements MapView.MapViewEventListener, MapView.POIItemEventListener {
+public class SearchMapActivity extends Activity implements MapView.MapViewEventListener, MapView.POIItemEventListener {
 
     private static final String LOG_TAG = "SearchDemoActivity";
     public static String address = "";
@@ -93,6 +95,17 @@ public class SearchMapActivity extends FragmentActivity implements MapView.MapVi
 				});
 			}
 		});
+        mButtonSearch.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                //Enter key Action
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    mButtonSearch.performClick();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
     
     class CustomCalloutBalloonAdapter implements CalloutBalloonAdapter {
